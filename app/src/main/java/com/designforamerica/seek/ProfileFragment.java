@@ -11,7 +11,7 @@ import com.parse.ParseUser;
 /**
  * Created by jbruzek on 4/1/15.
  */
-public class ProfileFragment extends Fragment implements ParseCallbacks {
+public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,13 +29,5 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         text.setText(b.getString("name"));
 
         return v;
-    }
-
-    /**
-     * Called when the ParseHelper finishes a task
-     */
-    @Override
-    public void complete() {
-
     }
 }

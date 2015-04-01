@@ -14,4 +14,13 @@
         android:textSize="48dp"
         android:textColor="@color/primary"/>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/locations_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>
