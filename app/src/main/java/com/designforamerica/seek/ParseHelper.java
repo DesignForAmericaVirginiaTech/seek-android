@@ -28,13 +28,14 @@ public class ParseHelper {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> locList, ParseException e) {
                 if (e == null) {
+                    Log.d("Query", "Found the locations. " + locList.size() + " locations found.");
                     for(ParseObject p : locList) {
-                        Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"));
+                        Location l = new Location(p.getString("Name"), p.getDouble("Latitude"), p.getDouble("Longitude"));
                         locations.add(l);
                     }
                     pc.complete();
                 } else {
-                    Log.d("score", "Error: " + e.getMessage());
+                    Log.d("Query", "Error: " + e.getMessage());
                 }
             }
         });

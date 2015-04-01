@@ -11,30 +11,110 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by jbruzek on 4/1/15.
  */
-public class LocationsListFragment extends Fragment {
+public class LocationsListFragment extends Fragment implements ParseCallbacks {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ParseHelper ph;
+    private View v;
+    private ArrayList<Location> locations;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.locations_list, container, false);
+        v = inflater.inflate(R.layout.locations_list, container, false);
 
         Bundle b = getArguments();
 
-        TextView title = (TextView)v.findViewById(R.id.center_text);
-        title.setText(b.getString("name"));
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.locations_recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        locations = new ArrayList<Location>();
+        mAdapter = new LocationsAdapter(locations);
+        mRecyclerView.setAdapter(mAdapter);
 
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.RecyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        ph = new ParseHelper(this);
+        ph.queryLocations();
 
         return v;
     }
 
 
+    @Override
+    public void complete() {
+        locations = ph.getLocations();
+        mAdapter = new LocationsAdapter(locations);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    /**
+     * This class is an adapter for the recyclerview. It displays the Locations
+     */
+    public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
+        private ArrayList<Location> mDataset;
+
+        /**
+         * The viewholder class.
+         */
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            // each data item is just a string in this case
+            TextView title;
+            ImageView image;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                itemView.setClickable(true);
+                itemView.setOnClickListener(this);
+
+                title = (TextView) itemView.findViewById(R.id.location_item_title);
+                image = (ImageView) itemView.findViewById(R.id.location_item_image);
+            }
+
+            @Override
+            public void onClick(View v) {
+                //clicked an item in the list
+            }
+        }
+
+        /**
+         * Constructor for the LocationsAdapter
+         * @param myDataset
+         */
+        public LocationsAdapter(ArrayList<Location> myDataset) {
+            mDataset = myDataset;
+        }
+
+        // Create new views (invoked by the layout manager)
+        @Override
+        public LocationsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                       int viewType) {
+            // create a new view
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_list_item, parent, false);
+            ViewHolder vh = new ViewHolder(view);
+            return vh;
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            // - get element from your dataset at this position
+            // - replace the contents of the view with that element
+            holder.title.setText(mDataset.get(position).name());
+
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return mDataset.size();
+        }
+    }
 }
 
