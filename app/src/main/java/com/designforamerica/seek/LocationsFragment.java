@@ -2,22 +2,16 @@ package com.designforamerica.seek;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.astuetz.PagerSlidingTabStrip;
 
 /**
  * Created by jbruzek on 3/31/15.
  *
  * Code and examples for the sliding tabs taken from here:
- * https://github.com/astuetz/PagerSlidingTabStrip
+ * http://stackoverflow.com/questions/20469877/adding-tab-inside-fragment-in-android
  */
 public class LocationsFragment extends Fragment {
 
@@ -32,16 +26,22 @@ public class LocationsFragment extends Fragment {
         mTabHost = (FragmentTabHost)v.findViewById(android.R.id.tabhost);
         mTabHost.setup(getActivity(), ((android.support.v4.app.FragmentActivity)v.getContext()).getSupportFragmentManager(), R.id.realtabcontent);
 
+        Bundle b = new Bundle();
+        b.putString("name", "All Locations");
         mTabHost.addTab(mTabHost.newTabSpec("ALL LOCATIONS").setIndicator("ALL LOCATIONS"),
-                AllLocationsFragment.class, null);
+                AllLocationsFragment.class, b);
+        b = new Bundle();
+        b.putString("name", "Favorites");
         mTabHost.addTab(mTabHost.newTabSpec("FAVORITES").setIndicator("FAVORITES"),
-                FavoriteLocationsFragment.class, null);
+                FavoriteLocationsFragment.class, b);
 
         //Add styles to the tabs
         mTabHost.getTabWidget().getChildAt(0).setBackgroundResource(R.drawable.tab_selector);
         mTabHost.getTabWidget().getChildAt(1).setBackgroundResource(R.drawable.tab_selector);
         mTabHost.getTabWidget().setStripEnabled(false);
         mTabHost.getTabWidget().setDividerDrawable(null);
+
+        mTabHost.setCurrentTab(0);
 
         return v;
     }

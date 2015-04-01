@@ -29,5 +29,4 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'de.hdodenhof:circleimageview:1.2.1'
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
-    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }
