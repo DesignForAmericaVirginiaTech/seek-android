@@ -35,6 +35,8 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
     DrawerLayout Drawer;
     ActionBarDrawerToggle mDrawerToggle;
     MapFragment mapFrag;
+    LocationsFragment locFrag;
+    ProfileFragment proFrag;
 
     /**
      * Initialize the toolbar and the nav drawer.
@@ -116,7 +118,9 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         switch(position) {
             case 1:
                 toolbar.setTitle("Home");
-                mapFrag = new MapFragment();
+                if (getFragmentManager().findFragmentById(R.layout.map_fragment) == null) {
+                    mapFrag = new MapFragment();
+                }
                 b = new Bundle();
                 b.putString("name", "Home");
                 mapFrag.setArguments(b);
@@ -124,19 +128,23 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
                 break;
             case 2:
                 toolbar.setTitle("Profile");
-                mapFrag = new MapFragment();
+                if (getFragmentManager().findFragmentById(R.layout.profile_fragment) == null) {
+                    proFrag = new ProfileFragment();
+                }
                 b = new Bundle();
                 b.putString("name", "Profile");
-                mapFrag.setArguments(b);
-                getFragmentManager().beginTransaction().replace(R.id.container, mapFrag).commit();
+                proFrag.setArguments(b);
+                getFragmentManager().beginTransaction().replace(R.id.container, proFrag).commit();
                 break;
             case 3:
-                toolbar.setTitle("Events");
-                mapFrag = new MapFragment();
+                toolbar.setTitle("Locations");
+                if (getFragmentManager().findFragmentById(R.layout.locations_fragment) == null) {
+                    locFrag = new LocationsFragment();
+                }
                 b = new Bundle();
-                b.putString("name", "Events");
-                mapFrag.setArguments(b);
-                getFragmentManager().beginTransaction().replace(R.id.container, mapFrag).commit();
+                b.putString("name", "Locations");
+                locFrag.setArguments(b);
+                getFragmentManager().beginTransaction().replace(R.id.container, locFrag).commit();
                 break;
             case 4:
                 toolbar.setTitle("temp1");
