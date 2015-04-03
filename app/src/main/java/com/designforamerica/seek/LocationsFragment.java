@@ -22,6 +22,7 @@ public class LocationsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.locations_fragment,container, false);
+        container.removeAllViews();
 
         mTabHost = (FragmentTabHost)v.findViewById(android.R.id.tabhost);
         mTabHost.setup(getActivity(), ((android.support.v4.app.FragmentActivity)v.getContext()).getSupportFragmentManager(), R.id.realtabcontent);

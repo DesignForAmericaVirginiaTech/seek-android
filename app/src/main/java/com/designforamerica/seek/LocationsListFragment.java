@@ -29,6 +29,7 @@ public class LocationsListFragment extends Fragment implements ParseCallbacks {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.locations_list, container, false);
+        container.removeAllViews();
 
         Bundle b = getArguments();
 
