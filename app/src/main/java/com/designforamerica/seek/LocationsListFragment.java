@@ -1,6 +1,7 @@
 package com.designforamerica.seek;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -80,6 +81,11 @@ public class LocationsListFragment extends Fragment implements ParseCallbacks {
             @Override
             public void onClick(View v) {
                 //clicked an item in the list
+                Intent i = new Intent(getActivity(), LocationActivity.class);
+                i.putExtra("title", "Location Name");
+                i.putExtra("lon", 32.84752);
+                i.putExtra("lat", -80.78675);
+                startActivity(i);
             }
         }
 

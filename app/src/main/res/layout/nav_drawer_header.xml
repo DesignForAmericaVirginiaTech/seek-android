@@ -40,8 +40,8 @@
             android:text="email"
             android:textSize="14sp"
             android:textStyle="normal"
-
             />
+
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
