@@ -11,16 +11,24 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -51,23 +59,51 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
                 } else if (user.isNew()) {
                     Log.d("MyApp", "User signed up and logged in through Facebook!");
                     Toast.makeText(getApplicationContext(), "New log in successful", Toast.LENGTH_SHORT).show();
-                    launchMainActivity();
+                    getFacebookInfo(user);
                 } else {
                     Log.d("MyApp", "User logged in through Facebook!");
                     Toast.makeText(getApplicationContext(), "Existing log in successful", Toast.LENGTH_SHORT).show();
-                    launchMainActivity();
+                    getFacebookInfo(user);
                 }
             }
         });
     }
 
-    private void launchMainActivity() {
+    private void getFacebookInfo(ParseUser user) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                AccessToken.getCurrentAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject object,
+                            GraphResponse response) {
+                        try {
+                            Log.d("JSON", object.toString(4));
+                            String profilePictureUrl = "http://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
+                            launchMainActivity(object.getString("name"), object.getString("first_name"), object.getString("last_name"), object.getString("email"), profilePictureUrl);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,picture,first_name,last_name,cover,email");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    private void launchMainActivity(final String name, final String fName, final String lName, final String email, final String pic) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
+                i.putExtra("fName", fName);
+                i.putExtra("lName", lName);
+                i.putExtra("name", name);
+                i.putExtra("email", email);
+                i.putExtra("url", pic);
                 if (mLastLocation != null) {
                     i.putExtra("lon", mLastLocation.getLongitude());
                     i.putExtra("lat", mLastLocation.getLatitude());

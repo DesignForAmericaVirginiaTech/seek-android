@@ -54,8 +54,6 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         Nav Drawer Items
      */
     //Profile information
-    String NAME = "Joe Bruzek";
-    String EMAIL = "jbruzek@vt.edu";
     int PROFILE = R.drawable.joe;
     //icons
     int ICONS[] = {
@@ -89,6 +87,8 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+
         /**
          * Set up location updates
          */
@@ -105,7 +105,14 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
 
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new NavAdapter(getResources().getStringArray(R.array.nav_drawer_items), ICONS, NAME, EMAIL, PROFILE, this, this);
+        mAdapter = new NavAdapter(
+                getResources().getStringArray(R.array.nav_drawer_items),
+                ICONS,
+                intent.getStringExtra("name"),
+                intent.getStringExtra("email"),
+                PROFILE,
+                this,
+                this);
         mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -136,7 +143,6 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         }
         Bundle b = new Bundle();
         //get the location from the splash screen
-        Intent intent = getIntent();
         b.putDouble("lon", intent.getDoubleExtra("lon", -80.4209));
         b.putDouble("lat", intent.getDoubleExtra("lat", 37.22666));
         b.putString("name", "Home");
