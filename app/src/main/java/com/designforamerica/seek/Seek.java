@@ -1,6 +1,7 @@
 package com.designforamerica.seek;
 
 import android.app.Application;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.FacebookSdk;
@@ -20,7 +21,8 @@ public class Seek extends Application {
 
         //Do Parse stuff
         Parse.initialize(this, "L7CDrAJbInWtaIKgDgd2KEdwrMTMmoUkrJ9NqKI6", "0RYtKnmHQndqQJnEgox9ooOe245N70qavryxV6vY");
-        //ParseFacebookUtils.initialize(getResources().getString(R.string.facebook_app_id));
+        ParseFacebookUtils.initialize(getApplicationContext());
+
 
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
