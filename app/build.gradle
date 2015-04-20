@@ -41,5 +41,5 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
     compile files('libs/Parse-1.9.1.jar')
     compile files('libs/ParseFacebookUtilsV4-1.9.1.jar')
-    compile files('libs/json-20141113.jar')
+    compile files('libs/picasso-2.5.2.jar')
 }

@@ -77,6 +77,12 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
     LocationsFragment locFrag;
     ProfileFragment proFrag;
 
+    // Profile login information
+    private String name;
+    private String email;
+    private String url;
+    private String cover;
+
     /**
      * Initialize the toolbar and the nav drawer.
      * add the home fragment to the frame
@@ -88,6 +94,10 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
+        name = intent.getStringExtra("name");
+        email = intent.getStringExtra("email");
+        url = intent.getStringExtra("url");
+        cover = intent.getStringExtra("cover");
 
         /**
          * Set up location updates
@@ -108,9 +118,10 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         mAdapter = new NavAdapter(
                 getResources().getStringArray(R.array.nav_drawer_items),
                 ICONS,
-                intent.getStringExtra("name"),
-                intent.getStringExtra("email"),
-                PROFILE,
+                name,
+                email,
+                url,
+                cover,
                 this,
                 this);
         mRecyclerView.setAdapter(mAdapter);
@@ -193,7 +204,10 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
                     proFrag = new ProfileFragment();
                 }
                 b = new Bundle();
-                b.putString("name", "Profile");
+                b.putString("name", name);
+                b.putString("email", email);
+                b.putString("url", url);
+                b.putString("cover", cover);
                 proFrag.setArguments(b);
                 getFragmentManager().beginTransaction().replace(R.id.container, proFrag).commit();
                 break;
@@ -359,8 +373,6 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         //updateUI();
-        Toast.makeText(this, getResources().getString(R.string.location_updated_message) + ":\n" + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude(),
-                Toast.LENGTH_SHORT).show();
     }
 
     @Override

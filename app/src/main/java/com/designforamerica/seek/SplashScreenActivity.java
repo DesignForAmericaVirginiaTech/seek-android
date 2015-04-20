@@ -37,7 +37,6 @@ import java.util.List;
 
 public class SplashScreenActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private static int SPLASH_TIME_OUT = 500;
     protected GoogleApiClient mGoogleApiClient;
     protected android.location.Location mLastLocation;
 
@@ -49,24 +48,31 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         buildGoogleApiClient();
-        List<String> permissions = Arrays.asList("public_profile", "email", "user_photos");
-        ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException err) {
-                if (user == null) {
-                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-                    Toast.makeText(getApplicationContext(), "Cancelled Login", Toast.LENGTH_SHORT).show();
-                } else if (user.isNew()) {
-                    Log.d("MyApp", "User signed up and logged in through Facebook!");
-                    Toast.makeText(getApplicationContext(), "New log in successful", Toast.LENGTH_SHORT).show();
-                    getFacebookInfo(user);
-                } else {
-                    Log.d("MyApp", "User logged in through Facebook!");
-                    Toast.makeText(getApplicationContext(), "Existing log in successful", Toast.LENGTH_SHORT).show();
-                    getFacebookInfo(user);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            getFacebookInfo(currentUser);
+        } else {
+            List<String> permissions = Arrays.asList("public_profile", "email", "user_photos", "cover");
+            ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
+                @Override
+                public void done(ParseUser user, ParseException err) {
+                    if (user == null) {
+                        Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                        Toast.makeText(getApplicationContext(), "Cancelled Login", Toast.LENGTH_SHORT).show();
+                    } else if (user.isNew()) {
+                        Log.d("MyApp", "User signed up and logged in through Facebook!");
+                        Toast.makeText(getApplicationContext(), "New log in successful", Toast.LENGTH_SHORT).show();
+                        getFacebookInfo(user);
+                    } else {
+                        Log.d("MyApp", "User logged in through Facebook!");
+                        Toast.makeText(getApplicationContext(), "Existing log in successful", Toast.LENGTH_SHORT).show();
+                        getFacebookInfo(user);
+                    }
                 }
-            }
-        });
+            });
+        }
+
     }
 
     private void getFacebookInfo(ParseUser user) {
@@ -79,8 +85,10 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
                             GraphResponse response) {
                         try {
                             Log.d("JSON", object.toString(4));
-                            String profilePictureUrl = "http://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
-                            launchMainActivity(object.getString("name"), object.getString("first_name"), object.getString("last_name"), object.getString("email"), profilePictureUrl);
+
+                            String profilePictureUrl = "https://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
+                            String coverPhotoUrl = response.getJSONObject().getJSONObject("cover").getString("source");
+                            launchMainActivity(object.getString("name"), object.getString("first_name"), object.getString("last_name"), object.getString("email"), profilePictureUrl, coverPhotoUrl);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -92,30 +100,26 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         request.executeAsync();
     }
 
-    private void launchMainActivity(final String name, final String fName, final String lName, final String email, final String pic) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
-                Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
-                i.putExtra("fName", fName);
-                i.putExtra("lName", lName);
-                i.putExtra("name", name);
-                i.putExtra("email", email);
-                i.putExtra("url", pic);
-                if (mLastLocation != null) {
-                    i.putExtra("lon", mLastLocation.getLongitude());
-                    i.putExtra("lat", mLastLocation.getLatitude());
-                } else {
-                    i.putExtra("lon", 0);
-                    i.putExtra("lat", 0);
-                }
-                startActivity(i);
-                // close this activity
-                finish();
-            }
-        }, SPLASH_TIME_OUT);
+    private void launchMainActivity(final String name, final String fName, final String lName, final String email, final String pic, final String cover) {
+        // This method will be executed once the timer is over
+        // Start your app main activity
+        Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
+        i.putExtra("fName", fName);
+        i.putExtra("lName", lName);
+        i.putExtra("name", name);
+        i.putExtra("email", email);
+        i.putExtra("url", pic);
+        i.putExtra("cover", cover);
+        if (mLastLocation != null) {
+            i.putExtra("lon", mLastLocation.getLongitude());
+            i.putExtra("lat", mLastLocation.getLatitude());
+        } else {
+            i.putExtra("lon", 0);
+            i.putExtra("lat", 0);
+        }
+        startActivity(i);
+        // close this activity
+        finish();
     }
 
     protected synchronized void buildGoogleApiClient() {

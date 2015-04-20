@@ -3,11 +3,14 @@ package com.designforamerica.seek;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -23,8 +26,9 @@ public class NavAdapter extends RecyclerView.Adapter<NavAdapter.ViewHolder>{
     private int mIcons[];       // Int Array to store the passed icons resource value from MainActivity.java
 
     private String name;        //String Resource for header View Name
-    private int profile;        //int Resource for header view profile picture
+    private String profile;     //String URL for header view profile picture
     private String email;       //String Resource for header view email
+    private String cover;
     private Context context;
     private NavDrawerCallbacks ndc;
     private int selected = 1;
@@ -39,6 +43,7 @@ public class NavAdapter extends RecyclerView.Adapter<NavAdapter.ViewHolder>{
         TextView textView;
         ImageView imageView;
         ImageView profile;
+        ImageView cover;
         TextView Name;
         TextView email;
         Context context2;
@@ -65,6 +70,7 @@ public class NavAdapter extends RecyclerView.Adapter<NavAdapter.ViewHolder>{
                 Name = (TextView) itemView.findViewById(R.id.name);
                 email = (TextView) itemView.findViewById(R.id.email);
                 profile = (ImageView) itemView.findViewById(R.id.circleView);
+                cover = (ImageView) itemView.findViewById(R.id.nav_cover);
                 Holderid = 0; //header item
             }
         }
@@ -87,12 +93,14 @@ public class NavAdapter extends RecyclerView.Adapter<NavAdapter.ViewHolder>{
     /**
      * The NavAdapter. Takes arguments from the Main Activity
      */
-    NavAdapter(String Titles[],int Icons[],String Name,String Email, int Profile, Context passedContext, NavDrawerCallbacks n) {
+    NavAdapter(String Titles[],int Icons[],String Name, String Email, String Profile, String cover, Context passedContext, NavDrawerCallbacks n) {
         mNavTitles = Titles;
         mIcons = Icons;
         name = Name;
         email = Email;
+        this.cover = cover;
         profile = Profile;
+
         this.context = passedContext;
         this.ndc = n; //navDrawerCallbacks
         holders = new ArrayList<ViewHolder>();
@@ -125,7 +133,10 @@ public class NavAdapter extends RecyclerView.Adapter<NavAdapter.ViewHolder>{
             holder.imageView.setImageResource(mIcons[position - 1]);
         }
         else{
-            holder.profile.setImageResource(profile);
+            Log.d("profile url", profile);
+            Picasso.with(context).load(cover).fit().centerCrop().into(holder.cover);
+            Picasso.with(context).load(profile).transform(new CircleTransform()).into(holder.profile);
+            //holder.profile.setImageResource(profile);
             holder.Name.setText(name);
             holder.email.setText(email);
         }
