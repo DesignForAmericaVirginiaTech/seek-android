@@ -1,24 +1,27 @@
 package com.designforamerica.seek;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.parse.ParseUser;
 import com.software.shell.fab.ActionButton;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 /**
  * Created by jbruzek on 4/1/15.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements ParseCallbacks {
 
+    private ParseHelper ph;
     private ImageView picture;
     private TextView nameText;
     private TextView emailText;
@@ -27,6 +30,9 @@ public class ProfileFragment extends Fragment {
     private String name;
     private String email;
     private String cover;
+    private ArrayList<Location> locations;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +54,13 @@ public class ProfileFragment extends Fragment {
         nameText = (TextView) v.findViewById(R.id.profile_name);
         emailText = (TextView) v.findViewById(R.id.profile_email);
         header = (ImageView) v.findViewById(R.id.profile_header);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.my_locations_recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        locations = new ArrayList<Location>();
+        mAdapter = new MyLocationsAdapter(locations);
+        mRecyclerView.setAdapter(mAdapter);
 
         Picasso.with(v.getContext()).load(cover).fit().centerCrop().into(header);
         Picasso.with(v.getContext()).load(url).transform(new CircleTransform()).into(picture);
@@ -67,6 +80,79 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        ph = new ParseHelper(this);
+        //ph.queryMyLocations(ParseUser.getCurrentUser());
+        ph.queryLocations();
+
         return v;
+    }
+
+    @Override
+    public void complete() {
+        locations = ph.getLocations();
+        mAdapter = new MyLocationsAdapter(locations);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    /**
+     * This class is an adapter for the recyclerview. It displays the Locations
+     */
+    public class MyLocationsAdapter extends RecyclerView.Adapter<MyLocationsAdapter.ViewHolder> {
+        private ArrayList<Location> mDataset;
+
+        /**
+         * The viewholder class.
+         */
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            // each data item is just a string in this case
+            TextView title;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                itemView.setClickable(true);
+                itemView.setOnClickListener(this);
+
+                title = (TextView) itemView.findViewById(R.id.my_location_title);
+            }
+
+            @Override
+            public void onClick(View v) {
+                //clicked an item in the list
+            }
+        }
+
+        /**
+         * Constructor for the LocationsAdapter
+         * @param myDataset
+         */
+        public MyLocationsAdapter(ArrayList<Location> myDataset) {
+            mDataset = myDataset;
+        }
+
+        // Create new views (invoked by the layout manager)
+        @Override
+        public MyLocationsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                              int viewType) {
+            // create a new view
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_locations_list_item, parent, false);
+            ViewHolder vh = new ViewHolder(view);
+            return vh;
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            // - get element from your dataset at this position
+            // - replace the contents of the view with that element
+            holder.title.setText(mDataset.get(position).name());
+
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return mDataset.size();
+        }
     }
 }
