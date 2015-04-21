@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         mAdapter = new MyLocationsAdapter(locations);
         mRecyclerView.setAdapter(mAdapter);
 
-        Picasso.with(v.getContext()).load(cover).fit().centerCrop().into(header);
+        Picasso.with(v.getContext()).load(cover).fit().centerCrop().transform(new BlurTransformation(getActivity(), 25)).into(header);
         Picasso.with(v.getContext()).load(url).transform(new CircleTransform()).into(picture);
         nameText.setText(name);
         emailText.setText(email);

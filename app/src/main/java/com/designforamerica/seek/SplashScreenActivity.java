@@ -53,7 +53,8 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         if (currentUser != null) {
             getFacebookInfo(currentUser);
         } else {
-            List<String> permissions = Arrays.asList("public_profile", "email", "user_photos", "cover");
+            //List<String> permissions = Arrays.asList("public_profile", "email", "user_photos", "cover");
+            List<String> permissions = Arrays.asList("public_profile", "email", "user_photos");
             ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
                 @Override
                 public void done(ParseUser user, ParseException err) {
@@ -87,7 +88,8 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
                             Log.d("JSON", object.toString(4));
 
                             String profilePictureUrl = "https://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
-                            String coverPhotoUrl = response.getJSONObject().getJSONObject("cover").getString("source");
+                            //String coverPhotoUrl = response.getJSONObject().getJSONObject("cover").getString("source");
+                            String coverPhotoUrl = "https://scontent-iad.xx.fbcdn.net/hphotos-xat1/v/t1.0-9/75952_10203243480026976_487162205_n.jpg?oh=dae1b7b99e6351465451b3e5a7e5ed92&oe=55DCDBE6";
                             launchMainActivity(object.getString("name"), object.getString("first_name"), object.getString("last_name"), object.getString("email"), profilePictureUrl, coverPhotoUrl);
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -28,7 +28,6 @@ public class LocationActivity extends ActionBarActivity {
         setContentView(R.layout.activity_location);
 
         Intent intent = getIntent();
-
         toolbar = (Toolbar) findViewById(R.id.location_tool_bar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
