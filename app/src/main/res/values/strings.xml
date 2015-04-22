@@ -15,6 +15,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="facebook_app_id">661011660688998</string>
     <string name="location_updated_message">Location has been updated</string>
+    <string name="login_terms_and_conditions">See[k] logs you in with Facebook in order to manage favorite and custom locations. If you continue without logging in you will not be able to favorite or post locations.</string>
 
     <string-array name="nav_drawer_items">
         <item >Map</item>
@@ -31,5 +32,7 @@
         <item>@drawable/ic_map</item>
         <item>@drawable/ic_map</item>
     </string-array>
+
+
 
 </resources>

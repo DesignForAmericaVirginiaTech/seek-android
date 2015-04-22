@@ -1,6 +1,10 @@
 package com.designforamerica.seek;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -35,7 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class SplashScreenActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SplashScreenActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LoginDialog.LoginDialogListener {
 
     protected GoogleApiClient mGoogleApiClient;
     protected android.location.Location mLastLocation;
@@ -50,28 +54,16 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         buildGoogleApiClient();
 
         ParseUser currentUser = ParseUser.getCurrentUser();
+
+        //FOR DEBUGGING PURPOSES
+        currentUser = null;
+        //END DEBUGGING CODE
+
         if (currentUser != null) {
             getFacebookInfo(currentUser);
         } else {
-            //List<String> permissions = Arrays.asList("public_profile", "email", "user_photos", "cover");
-            List<String> permissions = Arrays.asList("public_profile", "email", "user_photos");
-            ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
-                @Override
-                public void done(ParseUser user, ParseException err) {
-                    if (user == null) {
-                        Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-                        Toast.makeText(getApplicationContext(), "Cancelled Login", Toast.LENGTH_SHORT).show();
-                    } else if (user.isNew()) {
-                        Log.d("MyApp", "User signed up and logged in through Facebook!");
-                        Toast.makeText(getApplicationContext(), "New log in successful", Toast.LENGTH_SHORT).show();
-                        getFacebookInfo(user);
-                    } else {
-                        Log.d("MyApp", "User logged in through Facebook!");
-                        Toast.makeText(getApplicationContext(), "Existing log in successful", Toast.LENGTH_SHORT).show();
-                        getFacebookInfo(user);
-                    }
-                }
-            });
+            DialogFragment newFragment = new LoginDialog();
+            newFragment.show(getFragmentManager(), "login");
         }
 
     }
@@ -175,5 +167,35 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onDialogPositiveClick(LoginDialog l) {
+        l.dismiss();
+        //List<String> permissions = Arrays.asList("public_profile", "email", "user_photos", "cover");
+        List<String> permissions = Arrays.asList("public_profile", "email", "user_photos");
+        ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException err) {
+                if (user == null) {
+                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                    Toast.makeText(getApplicationContext(), "Cancelled Login", Toast.LENGTH_SHORT).show();
+                } else if (user.isNew()) {
+                    Log.d("MyApp", "User signed up and logged in through Facebook!");
+                    Toast.makeText(getApplicationContext(), "New log in successful", Toast.LENGTH_SHORT).show();
+                    getFacebookInfo(user);
+                } else {
+                    Log.d("MyApp", "User logged in through Facebook!");
+                    Toast.makeText(getApplicationContext(), "Existing log in successful", Toast.LENGTH_SHORT).show();
+                    getFacebookInfo(user);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onDialogNegativeClick(LoginDialog l) {
+        l.dismiss();
+        //hang I guess...
     }
 }
