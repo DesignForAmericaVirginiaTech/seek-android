@@ -1,28 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/scroll_view">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/location_map_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white" >
+        android:layout_height="278dp"/>
 
-        <LinearLayout
-            android:orientation="vertical"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scroll_view">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_marginTop="350dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:src="@drawable/ic_walk"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="24dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="72dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="24dp"
+                        android:textColor="@color/black"
+                        android:text="12 min"
+                        android:textSize="45sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:src="@drawable/ic_walk"
+                        android:layout_margin="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="72dp"
+                        android:layout_margin="16dp"
+                        android:textColor="@color/black"
+                        android:text="5 min"
+                        android:textSize="45sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:src="@drawable/ic_walk"
+                        android:layout_margin="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="72dp"
+                        android:layout_margin="16dp"
+                        android:textColor="@color/black"
+                        android:text="20 min"
+                        android:textSize="45sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:src="@drawable/ic_walk"
+                        android:layout_margin="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="72dp"
+                        android:layout_margin="16dp"
+                        android:textColor="@color/black"
+                        android:text="25 min"
+                        android:textSize="45sp"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
 
             <RelativeLayout
+                android:layout_marginTop="278dp"
+                android:id="@+id/location_title_layout"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="72dp"
                 android:background="@color/primary">
-
-                <com.google.android.gms.maps.MapView
-                    android:id="@+id/location_map_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="278dp"/>
 
                 <TextView
                     android:id="@+id/location_distance"
@@ -46,107 +150,19 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="8dp"/>
 
-
             </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.software.shell.fab.ActionButton
+                android:id="@+id/action_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-                
-                <ImageView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:src="@drawable/ic_walk"
-                    android:layout_margin="16dp" />
+                android:layout_marginTop="318dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/fab_margin"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="72dp"
-                    android:layout_margin="16dp"
-                    android:textColor="@color/black"
-                    android:text="12 min"
-                    android:textSize="45sp"/>
+        </RelativeLayout>
 
-            </LinearLayout>
+    </ScrollView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:src="@drawable/ic_walk"
-                    android:layout_margin="16dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="72dp"
-                    android:layout_margin="16dp"
-                    android:textColor="@color/black"
-                    android:text="5 min"
-                    android:textSize="45sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:src="@drawable/ic_walk"
-                    android:layout_margin="16dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="72dp"
-                    android:layout_margin="16dp"
-                    android:textColor="@color/black"
-                    android:text="20 min"
-                    android:textSize="45sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:src="@drawable/ic_walk"
-                    android:layout_margin="16dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="72dp"
-                    android:layout_margin="16dp"
-                    android:textColor="@color/black"
-                    android:text="25 min"
-                    android:textSize="45sp"/>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <com.software.shell.fab.ActionButton
-            android:id="@+id/action_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/fab_margin"
-            android:layout_marginTop="316dp"
-            />
-
-    </RelativeLayout>
-
-</ScrollView>
+</RelativeLayout>

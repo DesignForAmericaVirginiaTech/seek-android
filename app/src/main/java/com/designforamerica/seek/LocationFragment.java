@@ -64,20 +64,21 @@ public class LocationFragment extends Fragment {
         actionButton.setButtonColorPressed(getResources().getColor(R.color.accentDark));
         actionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_nav));
         actionButton.show();
+        actionButton.bringToFront();
 
         //Hide the toolbar when the user scrolls!
-        scrollView = (ScrollView) v.findViewById(R.id.scroll_view);
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                int dy = scrollView.getScrollY();
-                if (dy >= 300) {
-                    ((ActionBarActivity)getActivity()).getSupportActionBar().hide();
-                } else if (dy < 300) {
-                    ((ActionBarActivity)getActivity()).getSupportActionBar().show();
-                }
-            }
-        });
+//        scrollView = (ScrollView) v.findViewById(R.id.scroll_view);
+//        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+//            @Override
+//            public void onScrollChanged() {
+//                int dy = scrollView.getScrollY();
+//                if (dy >= 300) {
+//                    ((ActionBarActivity)getActivity()).getSupportActionBar().hide();
+//                } else if (dy < 300) {
+//                    ((ActionBarActivity)getActivity()).getSupportActionBar().show();
+//                }
+//            }
+//        });
 
         return v;
     }
