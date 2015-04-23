@@ -59,6 +59,24 @@ public class MapFragment extends Fragment implements ParseCallbacks {
     }
 
     @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
     public void complete() {
         ArrayList<Location> li = ph.getLocations();
         for (Location l : li) {
