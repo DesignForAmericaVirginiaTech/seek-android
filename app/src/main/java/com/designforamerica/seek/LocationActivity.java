@@ -40,6 +40,8 @@ public class LocationActivity extends ActionBarActivity {
         }
         Bundle b = new Bundle();
         b.putString("title", intent.getStringExtra("title"));
+        b.putDouble("lat", intent.getDoubleExtra("lat", 0));
+        b.putDouble("lon", intent.getDoubleExtra("lon", 0));
         locFrag.setArguments(b);
         getFragmentManager().beginTransaction().add(R.id.location_container, locFrag).commit();
 

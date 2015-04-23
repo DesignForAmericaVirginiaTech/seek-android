@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ public class LocationsListFragment extends Fragment implements ParseCallbacks {
             // each data item is just a string in this case
             TextView title;
             ImageView image;
+            Location l;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -81,11 +83,12 @@ public class LocationsListFragment extends Fragment implements ParseCallbacks {
 
             @Override
             public void onClick(View v) {
+                Log.d("onClickLocation", l.longitude() + " " + l.latitude());
                 //clicked an item in the list
                 Intent i = new Intent(getActivity(), LocationActivity.class);
-                i.putExtra("title", "Location Name");
-                i.putExtra("lon", 32.84752);
-                i.putExtra("lat", -80.78675);
+                i.putExtra("title",  l.name());
+                i.putExtra("lon", (Double)l.longitude());
+                i.putExtra("lat", (Double)l.latitude());
                 startActivity(i);
             }
         }
@@ -114,6 +117,7 @@ public class LocationsListFragment extends Fragment implements ParseCallbacks {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
             holder.title.setText(mDataset.get(position).name());
+            holder.l = mDataset.get(position);
 
         }
 
@@ -123,5 +127,7 @@ public class LocationsListFragment extends Fragment implements ParseCallbacks {
             return mDataset.size();
         }
     }
+
+
 }
 

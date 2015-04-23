@@ -50,7 +50,7 @@ public class MapFragment extends Fragment implements ParseCallbacks {
         // Updates the location and zoom of the MapView
         Bundle b = getArguments();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(b.getDouble("lat"), b.getDouble("lon")), 15);
-        map.animateCamera(cameraUpdate);
+        map.moveCamera(cameraUpdate);
 
         ph = new ParseHelper(this);
         ph.queryLocations();
