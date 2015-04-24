@@ -6,26 +6,34 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.software.shell.fab.ActionButton;
 
 /**
  * Created by jbruzek on 4/2/15.
  */
-public class LocationActivity extends ActionBarActivity {
+public class LocationActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private Toolbar toolbar;
-    private RelativeLayout layout;
     private LocationFragment locFrag;
+    private LocationUpdateCallbacks luc;
 
     private boolean favorite = false;
+    protected GoogleApiClient mGoogleApiClient;
+    protected android.location.Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
+        buildGoogleApiClient();
 
         Intent intent = getIntent();
         toolbar = (Toolbar) findViewById(R.id.location_tool_bar);
@@ -37,6 +45,7 @@ public class LocationActivity extends ActionBarActivity {
 
         if (getFragmentManager().findFragmentById(R.layout.location_fragment) == null) {
             locFrag = new LocationFragment();
+            luc = locFrag;
         }
         Bundle b = new Bundle();
         b.putString("title", intent.getStringExtra("title"));
@@ -75,5 +84,50 @@ public class LocationActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (mLastLocation != null) {
+            luc.locationUpdated(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        }
+        else {
+            Toast.makeText(this, "No location detected", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.i("Location", "Connection suspended");
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        Log.i("Location", "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
 }

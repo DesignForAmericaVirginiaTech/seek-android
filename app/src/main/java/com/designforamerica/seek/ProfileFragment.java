@@ -62,8 +62,8 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         mAdapter = new MyLocationsAdapter(locations);
         mRecyclerView.setAdapter(mAdapter);
 
-        Picasso.with(v.getContext()).load(cover).fit().centerCrop().transform(new BlurTransformation(getActivity(), 25)).into(header);
-        Picasso.with(v.getContext()).load(url).transform(new CircleTransform()).into(picture);
+        Picasso.with(v.getContext()).load(cover).placeholder(R.drawable.polygon).fit().centerCrop().transform(new BlurTransformation(getActivity(), 25)).into(header);
+        Picasso.with(v.getContext()).load(url).placeholder(R.drawable.com_facebook_profile_picture_blank_portrait).transform(new CircleTransform()).into(picture);
         nameText.setText(name);
         emailText.setText(email);
 

@@ -20,7 +20,10 @@ public class Seek extends Application {
         super.onCreate();
 
         //Do Parse stuff
-        Parse.initialize(this, "L7CDrAJbInWtaIKgDgd2KEdwrMTMmoUkrJ9NqKI6", "0RYtKnmHQndqQJnEgox9ooOe245N70qavryxV6vY");
+        //OLD ONE
+        //Parse.initialize(this, "L7CDrAJbInWtaIKgDgd2KEdwrMTMmoUkrJ9NqKI6", "0RYtKnmHQndqQJnEgox9ooOe245N70qavryxV6vY");
+        //NEW ONE
+        Parse.initialize(this, "csMOVllLLOUIenFmTG1oH6ayhdinQnWpYr0VwGIx", "WuGAVhEuRXvd2snx7x3O7wvPKisZwLHUHyaa5fTt");
         ParseFacebookUtils.initialize(getApplicationContext());
 
 

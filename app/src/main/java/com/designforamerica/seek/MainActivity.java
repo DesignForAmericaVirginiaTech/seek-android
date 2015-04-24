@@ -53,15 +53,11 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
     /*
         Nav Drawer Items
      */
-    //Profile information
-    int PROFILE = R.drawable.joe;
     //icons
     int ICONS[] = {
             R.drawable.ic_map,
             R.drawable.ic_profile,
-            R.drawable.ic_locations,
-            R.drawable.ic_map,
-            R.drawable.ic_map
+            R.drawable.ic_locations
     };
 
     /*
@@ -173,6 +169,8 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -195,6 +193,8 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
                 }
                 b = new Bundle();
                 b.putString("name", "Home");
+                b.putDouble("lon", mCurrentLocation.getLongitude());
+                b.putDouble("lat", mCurrentLocation.getLatitude());
                 mapFrag.setArguments(b);
                 getFragmentManager().beginTransaction().replace(R.id.container, mapFrag).commit();
                 break;
@@ -220,22 +220,6 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
                 b.putString("name", "Locations");
                 locFrag.setArguments(b);
                 getFragmentManager().beginTransaction().replace(R.id.container, locFrag).commit();
-                break;
-            case 4:
-                toolbar.setTitle("temp1");
-                mapFrag = new MapFragment();
-                b = new Bundle();
-                b.putString("name", "temp1");
-                mapFrag.setArguments(b);
-                getFragmentManager().beginTransaction().replace(R.id.container, mapFrag).commit();
-                break;
-            case 5:
-                toolbar.setTitle("temp2");
-                mapFrag = new MapFragment();
-                b = new Bundle();
-                b.putString("name", "temp2");
-                mapFrag.setArguments(b);
-                getFragmentManager().beginTransaction().replace(R.id.container, mapFrag).commit();
                 break;
         }
     }

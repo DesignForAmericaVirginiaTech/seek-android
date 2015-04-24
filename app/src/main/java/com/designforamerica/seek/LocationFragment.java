@@ -23,9 +23,10 @@ import com.software.shell.fab.ActionButton;
 /**
  * Created by jbruzek on 4/3/15.
  */
-public class LocationFragment extends Fragment {
+public class LocationFragment extends Fragment implements LocationUpdateCallbacks {
 
     private TextView title;
+    private TextView distance;
     private ScrollView scrollView;
     private MapView mapView;
     private GoogleMap map;
@@ -58,6 +59,7 @@ public class LocationFragment extends Fragment {
 
         title = (TextView) v.findViewById(R.id.location_title);
         title.setText(name);
+        distance = (TextView) v.findViewById(R.id.location_distance);
 
         ActionButton actionButton = (ActionButton) v.findViewById(R.id.action_button);
         actionButton.setButtonColor(getResources().getColor(R.color.accent));
@@ -102,4 +104,43 @@ public class LocationFragment extends Fragment {
     }
 
 
+    @Override
+    public void locationUpdated(double latitude, double longitude) {
+        double d = distance(lat, lon, latitude, longitude);
+
+        distance.setText(d + " miles away");
+    }
+
+    /**
+     * Get the distance between two latlng points.
+     * Taken from here:
+     * http://www.geodatasource.com/developers/java
+     *
+     * Slightly edited so it rounds to one decimal place
+     */
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+
+        dist = dist * 10;
+        long tmp = Math.round(dist);
+        return (double) tmp / 10;
+    }
+
+    /**
+     * used by distance()
+     */
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    /**
+     * used by distance()
+     */
+    private double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
+    }
 }

@@ -21,18 +21,15 @@
         <item >Map</item>
         <item >Profile</item>
         <item >Locations</item>
-        <item >temp1</item>
-        <item >temp2</item>
     </string-array>
 
     <string-array name="nav_drawer_icons">
         <item>@drawable/ic_map</item>
         <item>@drawable/ic_profile</item>
         <item>@drawable/ic_locations</item>
-        <item>@drawable/ic_map</item>
-        <item>@drawable/ic_map</item>
     </string-array>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
 
 

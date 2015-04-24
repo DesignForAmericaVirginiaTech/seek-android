@@ -25,13 +25,13 @@ public class ParseHelper {
 
     public void queryLocations() {
         locations.clear();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("signs");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("locations");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> locList, ParseException e) {
                 if (e == null) {
                     Log.d("Query", "Found the locations. " + locList.size() + " locations found.");
                     for(ParseObject p : locList) {
-                        Location l = new Location(p.getString("Name"), p.getDouble("Latitude"), p.getDouble("Longitude"));
+                        Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"));
                         locations.add(l);
                     }
                     pc.complete();

@@ -134,8 +134,8 @@ public class NavAdapter extends RecyclerView.Adapter<NavAdapter.ViewHolder>{
         }
         else{
             Log.d("profile url", profile);
-            Picasso.with(context).load(cover).fit().centerCrop().transform(new BlurTransformation(context, 25)).into(holder.cover);
-            Picasso.with(context).load(profile).transform(new CircleTransform()).into(holder.profile);
+            Picasso.with(context).load(cover).placeholder(R.drawable.polygon).fit().centerCrop().transform(new BlurTransformation(context, 25)).into(holder.cover);
+            Picasso.with(context).load(profile).placeholder(R.drawable.com_facebook_profile_picture_blank_portrait).transform(new CircleTransform()).into(holder.profile);
             //holder.profile.setImageResource(profile);
             holder.Name.setText(name);
             holder.email.setText(email);
