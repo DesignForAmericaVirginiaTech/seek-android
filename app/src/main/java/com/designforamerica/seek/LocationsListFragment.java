@@ -117,6 +117,7 @@ public class LocationsListFragment extends Fragment implements ParseCallbacks {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
             holder.title.setText(mDataset.get(position).name());
+            holder.image.setImageResource(R.drawable.ic_logo_accent);
             holder.l = mDataset.get(position);
 
         }
