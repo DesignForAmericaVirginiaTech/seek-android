@@ -81,8 +81,7 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         });
 
         ph = new ParseHelper(this);
-        //ph.queryMyLocations(ParseUser.getCurrentUser());
-        ph.queryLocations();
+        ph.queryMyLocations(ParseUser.getCurrentUser().getObjectId());
 
         return v;
     }
@@ -99,6 +98,7 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
      */
     public class MyLocationsAdapter extends RecyclerView.Adapter<MyLocationsAdapter.ViewHolder> {
         private ArrayList<Location> mDataset;
+        private boolean empty = false;
 
         /**
          * The viewholder class.
@@ -113,7 +113,9 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
                 itemView.setClickable(true);
                 itemView.setOnClickListener(this);
 
-                title = (TextView) itemView.findViewById(R.id.my_location_title);
+                if (!empty) {
+                    title = (TextView) itemView.findViewById(R.id.my_location_title);
+                }
             }
 
             @Override
@@ -128,6 +130,11 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
          */
         public MyLocationsAdapter(ArrayList<Location> myDataset) {
             mDataset = myDataset;
+            //need to add a blank element if the list is empty
+            if (mDataset.isEmpty()) {
+                empty = true;
+                mDataset.add(new Location("", 0, 0));
+            }
         }
 
         // Create new views (invoked by the layout manager)
@@ -135,7 +142,12 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         public MyLocationsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                               int viewType) {
             // create a new view
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_locations_list_item, parent, false);
+            View view;
+            if (empty) {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.no_locations_list_item, parent, false);
+            } else {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_locations_list_item, parent, false);
+            }
             ViewHolder vh = new ViewHolder(view);
             return vh;
         }
@@ -143,9 +155,12 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
+            Log.d("Profile", "added a location to the recyclerview");
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            holder.title.setText(mDataset.get(position).name());
+            if (!empty) {
+                holder.title.setText(mDataset.get(position).name());
+            }
 
         }
 

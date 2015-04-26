@@ -34,7 +34,7 @@ public class LocationsFragment extends Fragment {
         b = new Bundle();
         b.putString("name", "Favorites");
         mTabHost.addTab(mTabHost.newTabSpec("FAVORITES").setIndicator("FAVORITES"),
-                LocationsListFragment.class, b);
+                FavoriteLocationsFragment.class, b);
 
         //Add styles to the tabs
         mTabHost.getTabWidget().getChildAt(0).setBackgroundResource(R.drawable.tab_selector);
