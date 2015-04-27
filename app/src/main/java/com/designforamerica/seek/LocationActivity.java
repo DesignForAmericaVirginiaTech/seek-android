@@ -51,6 +51,7 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
         b.putString("title", intent.getStringExtra("title"));
         b.putDouble("lat", intent.getDoubleExtra("lat", 0));
         b.putDouble("lon", intent.getDoubleExtra("lon", 0));
+        b.putBoolean("def", intent.getBooleanExtra("def", true));
         locFrag.setArguments(b);
         getFragmentManager().beginTransaction().add(R.id.location_container, locFrag).commit();
 

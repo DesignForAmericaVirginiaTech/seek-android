@@ -1,6 +1,10 @@
 package com.designforamerica.seek;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -8,8 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,12 +34,13 @@ public class LocationFragment extends Fragment implements LocationUpdateCallback
 
     private TextView title;
     private TextView distance;
-    private ScrollView scrollView;
+    private Button delete;
     private MapView mapView;
     private GoogleMap map;
     private String name;
     private Double lat;
     private Double lon;
+    private Boolean def;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +58,7 @@ public class LocationFragment extends Fragment implements LocationUpdateCallback
         name = b.getString("title");
         lat = b.getDouble("lat");
         lon = b.getDouble("lon");
+        def = b.getBoolean("def");
 
         MapsInitializer.initialize(this.getActivity());
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 15);
@@ -60,6 +69,18 @@ public class LocationFragment extends Fragment implements LocationUpdateCallback
         title = (TextView) v.findViewById(R.id.location_title);
         title.setText(name);
         distance = (TextView) v.findViewById(R.id.location_distance);
+        delete = (Button) v.findViewById(R.id.delete_location_button);
+        if (def) {
+            ((LinearLayout)delete.getParent()).removeView(delete);
+        } else {
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DeleteDialog dd = new DeleteDialog();
+                    dd.show(getFragmentManager(), "delete");
+                }
+            });
+        }
 
         ActionButton actionButton = (ActionButton) v.findViewById(R.id.action_button);
         actionButton.setButtonColor(getResources().getColor(R.color.accent));
@@ -142,5 +163,27 @@ public class LocationFragment extends Fragment implements LocationUpdateCallback
      */
     private double rad2deg(double rad) {
         return (rad * 180 / Math.PI);
+    }
+
+    private class DeleteDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Delete Location")
+            .setMessage("This action cannot be undone")
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Toast.makeText(getActivity(), "CONFIRM", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Toast.makeText(getActivity(), "cancel", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
     }
 }

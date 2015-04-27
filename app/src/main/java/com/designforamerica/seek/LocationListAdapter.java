@@ -57,6 +57,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
                 i.putExtra("title", l.name());
                 i.putExtra("lon", (Double) l.longitude());
                 i.putExtra("lat", (Double) l.latitude());
+                i.putExtra("def", l.def());
                 context.startActivity(i);
             }
         }
