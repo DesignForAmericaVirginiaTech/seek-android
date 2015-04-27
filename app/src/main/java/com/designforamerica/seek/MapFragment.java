@@ -77,7 +77,7 @@ public class MapFragment extends Fragment implements ParseCallbacks {
     }
 
     @Override
-    public void complete() {
+    public void complete(boolean empty) {
         ArrayList<Location> li = ph.getLocations();
         for (Location l : li) {
             map.addMarker(new MarkerOptions().position(new LatLng(l.latitude(), l.longitude())).title(l.name()));

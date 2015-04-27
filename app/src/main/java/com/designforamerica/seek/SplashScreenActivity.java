@@ -54,7 +54,6 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         buildGoogleApiClient();
 
         ParseUser currentUser = ParseUser.getCurrentUser();
-
         if (currentUser != null) {
             getFacebookInfo(currentUser);
         } else {

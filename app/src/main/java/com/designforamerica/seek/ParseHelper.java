@@ -41,7 +41,7 @@ public class ParseHelper {
                         Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"));
                         locations.add(l);
                     }
-                    pc.complete();
+                    pc.complete(locations.isEmpty());
                 } else {
                     Log.d("Query", "Error: " + e.getMessage());
                 }
@@ -65,7 +65,7 @@ public class ParseHelper {
                         Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"));
                         locations.add(l);
                     }
-                    pc.complete();
+                    pc.complete(locations.isEmpty());
                 } else {
                     Log.d("Query", "Error: " + e.getMessage());
                 }
@@ -79,7 +79,7 @@ public class ParseHelper {
      */
     public void queryFavoriteLocations(String user) {
         locations.clear();
-        pc.complete();
+        pc.complete(locations.isEmpty());
     }
 
     /**

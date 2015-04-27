@@ -32,7 +32,7 @@
                     <ImageView
                         android:layout_width="72dp"
                         android:layout_height="72dp"
-                        android:src="@drawable/ic_walk"
+                        android:src="@drawable/walk"
                         android:layout_marginRight="16dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginBottom="16dp"
@@ -60,7 +60,7 @@
                     <ImageView
                         android:layout_width="72dp"
                         android:layout_height="72dp"
-                        android:src="@drawable/ic_walk"
+                        android:src="@drawable/bike"
                         android:layout_margin="16dp" />
 
                     <TextView
@@ -82,7 +82,7 @@
                     <ImageView
                         android:layout_width="72dp"
                         android:layout_height="72dp"
-                        android:src="@drawable/ic_walk"
+                        android:src="@drawable/drive"
                         android:layout_margin="16dp" />
 
                     <TextView
@@ -90,7 +90,7 @@
                         android:layout_height="72dp"
                         android:layout_margin="16dp"
                         android:textColor="@color/black"
-                        android:text="20 min"
+                        android:text="7 min"
                         android:textSize="45sp"/>
 
                 </LinearLayout>
@@ -104,7 +104,7 @@
                     <ImageView
                         android:layout_width="72dp"
                         android:layout_height="72dp"
-                        android:src="@drawable/ic_walk"
+                        android:src="@drawable/drive"
                         android:layout_margin="16dp" />
 
                     <TextView
@@ -112,7 +112,7 @@
                         android:layout_height="72dp"
                         android:layout_margin="16dp"
                         android:textColor="@color/black"
-                        android:text="25 min"
+                        android:text="20 min"
                         android:textSize="45sp"/>
 
                 </LinearLayout>
