@@ -38,7 +38,7 @@ public class ParseHelper {
                 if (e == null) {
                     Log.d("Query", "Found the locations. " + locList.size() + " locations found.");
                     for(ParseObject p : locList) {
-                        Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"));
+                        Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"), p.getBoolean("default"));
                         locations.add(l);
                     }
                     pc.complete(locations.isEmpty());
@@ -62,7 +62,7 @@ public class ParseHelper {
                 if (e == null) {
                     Log.d("Query", "User locations. " + locList.size() + " locations found.");
                     for(ParseObject p : locList) {
-                        Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"));
+                        Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"), p.getBoolean("default"));
                         locations.add(l);
                     }
                     pc.complete(locations.isEmpty());

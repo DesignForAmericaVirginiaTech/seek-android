@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 /**
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.ViewHolder> {
     private ArrayList<Location> mDataset;
     private boolean empty = false;
-    private ProgressBar progress;
     private String e1;
     private String e2;
     private Context context;
@@ -47,6 +45,9 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
             }
         }
 
+        /**
+         * On click, open up a LocationActivity for the item clicked
+         */
         @Override
         public void onClick(View v) {
             if (!empty) {
@@ -77,11 +78,13 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         e2 = error2;
         //need to add a blank element if the query returned no results
         if (empty) {
-            mDataset.add(new Location("", 0, 0));
+            mDataset.add(new Location("", 0, 0, false));
         }
     }
 
-    // Create new views (invoked by the layout manager)
+    /**
+     * create the views to populate the recyclerview
+     */
     @Override
     public LocationListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                             int viewType) {
@@ -99,21 +102,27 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d("Profile", "added a location to the recyclerview");
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         if (!empty) {
-            holder.title.setText(mDataset.get(position).name());
-            holder.image.setImageResource(R.drawable.ic_logo_accent);
             holder.l = mDataset.get(position);
+            holder.title.setText(mDataset.get(position).name());
+            if (holder.l.def()) {
+                holder.image.setImageResource(R.drawable.ic_logo_primary);
+            } else {
+                holder.image.setImageResource(R.drawable.ic_logo_accent);
+            }
         } else {
+            //set an error message
             holder.title.setText(e1);
             holder.subtitle.setText(e2);
         }
 
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    /**
+     * @return dataset size
+     */
     @Override
     public int getItemCount() {
         return mDataset.size();

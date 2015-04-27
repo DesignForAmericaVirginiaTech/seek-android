@@ -18,6 +18,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 /**
+ * Fragment displaying information about the current user.
+ * Picture, cover photo, name, email, and custom locations
+ *
  * Created by jbruzek on 4/1/15.
  */
 public class ProfileFragment extends Fragment implements ParseCallbacks {
@@ -35,6 +38,9 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
 
+    /**
+     * initialize
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.profile_fragment, container, false);
@@ -48,6 +54,8 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         nameText = (TextView) v.findViewById(R.id.profile_name);
         emailText = (TextView) v.findViewById(R.id.profile_email);
         header = (ImageView) v.findViewById(R.id.profile_header);
+
+        //set up the recyclerview
         mRecyclerView = (RecyclerView) v.findViewById(R.id.my_locations_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -68,7 +76,6 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         actionButton.setButtonColorPressed(getResources().getColor(R.color.accentDark));
         actionButton.setImageDrawable(getResources().getDrawable(R.drawable.fab_plus_icon));
         actionButton.show();
-
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +83,7 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
             }
         });
 
+        //query for custom locations
         ph = new ParseHelper(this);
         ph.queryMyLocations(ParseUser.getCurrentUser().getObjectId());
 
@@ -88,15 +96,8 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
      */
     @Override
     public void complete(boolean empty) {
-        final boolean e = empty;
-        new android.os.Handler().postDelayed(
-            new Runnable() {
-                public void run() {
-                    locations = ph.getLocations();
-                    mAdapter = new LocationListAdapter(getActivity(), locations, e, "You have no locations", "Click the + button below to add a location to your profile");
-                    mRecyclerView.setAdapter(mAdapter);
-                }
-            },
-        2000);
+        locations = ph.getLocations();
+        mAdapter = new LocationListAdapter(getActivity(), locations, empty, "You have no locations", "Click the + button below to add a location to your profile");
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

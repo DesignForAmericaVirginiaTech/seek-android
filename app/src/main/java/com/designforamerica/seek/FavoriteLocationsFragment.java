@@ -1,7 +1,6 @@
 package com.designforamerica.seek;
 
 import android.support.v4.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,14 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
 /**
+ * Fragment that displays a list of the user's favorite locations.
+ *
  * Created by jbruzek on 4/26/15.
  */
 public class FavoriteLocationsFragment extends Fragment implements ParseCallbacks {
@@ -27,13 +26,15 @@ public class FavoriteLocationsFragment extends Fragment implements ParseCallback
     private View v;
     private ArrayList<Location> locations;
 
+    /**
+     * initialize
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.locations_list, container, false);
         container.removeAllViews();
 
-        Bundle b = getArguments();
-
+        //set up recyclerview
         mRecyclerView = (RecyclerView) v.findViewById(R.id.locations_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -42,6 +43,7 @@ public class FavoriteLocationsFragment extends Fragment implements ParseCallback
         mAdapter = new LoadingAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
+        //query for favorite locations
         ph = new ParseHelper(this);
         ph.queryFavoriteLocations(ParseUser.getCurrentUser().getObjectId());
 

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 /**
+ * Fragment that lists all of the locations for the user to see.
+ *
  * Created by jbruzek on 4/1/15.
  */
 public class LocationsListFragment extends Fragment implements ParseCallbacks {
@@ -22,11 +24,15 @@ public class LocationsListFragment extends Fragment implements ParseCallbacks {
     private View v;
     private ArrayList<Location> locations;
 
+    /**
+     * initialize
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.locations_list, container, false);
         container.removeAllViews();
 
+        //set up the recyclerview
         mRecyclerView = (RecyclerView) v.findViewById(R.id.locations_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -35,6 +41,7 @@ public class LocationsListFragment extends Fragment implements ParseCallbacks {
         mAdapter = new LoadingAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
+        //query for locations
         ph = new ParseHelper(this);
         ph.queryLocations();
 
