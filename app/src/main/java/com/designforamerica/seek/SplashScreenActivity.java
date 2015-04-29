@@ -39,10 +39,17 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class SplashScreenActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LoginDialog.LoginDialogListener {
+public class SplashScreenActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LoginDialog.LoginDialogListener, ParseCallbacks {
 
     protected GoogleApiClient mGoogleApiClient;
     protected android.location.Location mLastLocation;
+    private ParseHelper ph;
+    private String name;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String profilePic;
+    private String coverPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,8 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         buildGoogleApiClient();
+
+        ph = new ParseHelper(this);
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -74,10 +83,20 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
                         try {
                             Log.d("JSON", object.toString(4));
 
-                            String profilePictureUrl = "https://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
                             //String coverPhotoUrl = response.getJSONObject().getJSONObject("cover").getString("source");
-                            String coverPhotoUrl = "https://scontent-iad.xx.fbcdn.net/hphotos-xat1/v/t1.0-9/75952_10203243480026976_487162205_n.jpg?oh=dae1b7b99e6351465451b3e5a7e5ed92&oe=55DCDBE6";
-                            launchMainActivity(object.getString("name"), object.getString("first_name"), object.getString("last_name"), object.getString("email"), profilePictureUrl, coverPhotoUrl);
+                            name = object.getString("name");
+                            firstName = object.getString("first_name");
+                            lastName = object.getString("last_name");
+                            email = object.getString("email");
+                            profilePic = "https://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
+                            coverPic = "https://scontent-iad.xx.fbcdn.net/hphotos-xat1/v/t1.0-9/75952_10203243480026976_487162205_n.jpg?oh=dae1b7b99e6351465451b3e5a7e5ed92&oe=55DCDBE6";
+                            Seek.setProfileInformation(name, firstName, lastName, email, profilePic, coverPic);
+                            //callback to the main thread
+                            complete(true);
+                            ph.queryLocations();
+                            ph.queryMyLocations(ParseUser.getCurrentUser().getObjectId());
+                            ph.queryFavoriteLocations(ParseUser.getCurrentUser().getObjectId());
+                            ph.queryDistances();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -93,18 +112,12 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         // This method will be executed once the timer is over
         // Start your app main activity
         Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
-        i.putExtra("fName", fName);
-        i.putExtra("lName", lName);
-        i.putExtra("name", name);
-        i.putExtra("email", email);
-        i.putExtra("url", pic);
-        i.putExtra("cover", cover);
         if (mLastLocation != null) {
             i.putExtra("lon", mLastLocation.getLongitude());
             i.putExtra("lat", mLastLocation.getLatitude());
         } else {
-            i.putExtra("lon", 0);
-            i.putExtra("lat", 0);
+            i.putExtra("lon", -80.4209);
+            i.putExtra("lat", 37.22666);
         }
         startActivity(i);
         // close this activity
@@ -212,5 +225,24 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
                 }
             }
         });
+    }
+
+    /**
+     * Track the progress of the various callbacks
+     * This screen depends on five asynchronous callbacks:
+     *
+     * Facebook login
+     * Parse Location query
+     * Parse Distance query
+     * Parse favorite query
+     * Parse myLocations query
+     *
+     * @param empty
+     */
+    @Override
+    public void complete(boolean empty) {
+        if (Seek.complete()) {  //if all the callbacks have returned
+            launchMainActivity(name, firstName, lastName, email, profilePic, coverPic);
+        }
     }
 }

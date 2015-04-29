@@ -17,6 +17,9 @@ import java.util.List;
 public class ParseHelper {
     private ParseCallbacks pc;
     private ArrayList<Location> locations;
+    private ArrayList<Distance> distances;
+    private ArrayList<String> favorites;
+    private ArrayList<Location> myLocations;
 
     /**
      * initilize the helper with a callback
@@ -25,22 +28,26 @@ public class ParseHelper {
     public ParseHelper(ParseCallbacks p) {
         pc = p;
         locations = new ArrayList<Location>();
+        distances = new ArrayList<Distance>();
+        favorites = new ArrayList<String>();
+        myLocations = new ArrayList<Location>();
     }
 
     /**
-     * query for all the locations
+     * query for the default locations
      */
     public void queryLocations() {
         locations.clear();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("locations");
+        query.whereEqualTo("default", true);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> locList, ParseException e) {
                 if (e == null) {
-                    Log.d("Query", "Found the locations. " + locList.size() + " locations found.");
                     for(ParseObject p : locList) {
-                        Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"), p.getBoolean("default"));
+                        Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"), p.getBoolean("default"), p.getObjectId());
                         locations.add(l);
                     }
+                    Seek.setLocations(locations);
                     pc.complete(locations.isEmpty());
                 } else {
                     Log.d("Query", "Error: " + e.getMessage());
@@ -60,12 +67,12 @@ public class ParseHelper {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> locList, ParseException e) {
                 if (e == null) {
-                    Log.d("Query", "User locations. " + locList.size() + " locations found.");
                     for(ParseObject p : locList) {
-                        Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"), p.getBoolean("default"));
-                        locations.add(l);
+                        Location l = new Location(p.getString("name"), p.getDouble("latitude"), p.getDouble("longitude"), p.getBoolean("default"), p.getObjectId());
+                        myLocations.add(l);
                     }
-                    pc.complete(locations.isEmpty());
+                    Seek.setMyLocations(myLocations, myLocations.isEmpty());
+                    pc.complete(myLocations.isEmpty());
                 } else {
                     Log.d("Query", "Error: " + e.getMessage());
                 }
@@ -78,8 +85,42 @@ public class ParseHelper {
      * @param user
      */
     public void queryFavoriteLocations(String user) {
-        locations.clear();
-        pc.complete(locations.isEmpty());
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("favorites");
+        query.whereEqualTo("uid", user);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> list, ParseException e) {
+                if (e == null) {
+                    for(ParseObject p : list) {
+                        favorites.add(p.getString("lid"));
+                    }
+                    Seek.setFavorites(favorites, favorites.isEmpty());
+                    pc.complete(favorites.isEmpty());
+                } else {
+                    Log.d("Query", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    /**
+     * query for the distances
+     */
+    public void queryDistances() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("distances");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> list, ParseException e) {
+                if (e == null) {
+                    for(ParseObject p : list) {
+                        Distance d = new Distance(p.getString("startId"), p.getString("endId"), p.getDouble("time"), p.getInt("type"));
+                        distances.add(d);
+                    }
+                    Seek.setDistances(distances);
+                    pc.complete(distances.isEmpty());
+                } else {
+                    Log.d("Query", "Error: " + e.getMessage());
+                }
+            }
+        });
     }
 
     /**

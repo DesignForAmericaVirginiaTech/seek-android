@@ -18,7 +18,7 @@ import java.util.ArrayList;
  *
  * Created by jbruzek on 4/26/15.
  */
-public class FavoriteLocationsFragment extends Fragment implements ParseCallbacks {
+public class FavoriteLocationsFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -39,26 +39,11 @@ public class FavoriteLocationsFragment extends Fragment implements ParseCallback
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        locations = new ArrayList<Location>();
-        mAdapter = new LoadingAdapter();
+        locations = Seek.getFavoriteLocations();
+        mAdapter = new LocationListAdapter(getActivity(), locations, Seek.getFavoritesEmpty(), "You have no favorite Locations", "You can add a location to your favorites by clicking the star icon in the upper right of a location page.");
         mRecyclerView.setAdapter(mAdapter);
-
-        //query for favorite locations
-        ph = new ParseHelper(this);
-        ph.queryFavoriteLocations(ParseUser.getCurrentUser().getObjectId());
 
         return v;
-    }
-
-    /**
-     * Background query has completed
-     * @param empty
-     */
-    @Override
-    public void complete(boolean empty) {
-        locations = ph.getLocations();
-        mAdapter = new LocationListAdapter(getActivity(), locations, empty, "You have no favorite Locations", "You can add a location to your favorites by clicking the star icon in the upper right of a location page.");
-        mRecyclerView.setAdapter(mAdapter);
     }
 
 }

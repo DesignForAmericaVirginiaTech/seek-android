@@ -79,7 +79,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         e2 = error2;
         //need to add a blank element if the query returned no results
         if (empty) {
-            mDataset.add(new Location("", 0, 0, false));
+            mDataset.add(new Location("", 0, 0, false, ""));
         }
     }
 

@@ -89,11 +89,10 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = getIntent();
-        name = intent.getStringExtra("name");
-        email = intent.getStringExtra("email");
-        url = intent.getStringExtra("url");
-        cover = intent.getStringExtra("cover");
+        name = Seek.getName();
+        email = Seek.getEmail();
+        url = Seek.getProfilePic();
+        cover = Seek.getCoverPic();
 
         /**
          * Set up location updates
@@ -150,6 +149,7 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         }
         Bundle b = new Bundle();
         //get the location from the splash screen
+        Intent intent = getIntent();
         b.putDouble("lon", intent.getDoubleExtra("lon", -80.4209));
         b.putDouble("lat", intent.getDoubleExtra("lat", 37.22666));
         b.putString("name", "Home");
@@ -203,12 +203,6 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
                 if (getFragmentManager().findFragmentById(R.layout.profile_fragment) == null) {
                     proFrag = new ProfileFragment();
                 }
-                b = new Bundle();
-                b.putString("name", name);
-                b.putString("email", email);
-                b.putString("url", url);
-                b.putString("cover", cover);
-                proFrag.setArguments(b);
                 getFragmentManager().beginTransaction().replace(R.id.container, proFrag).commit();
                 break;
             case 3:

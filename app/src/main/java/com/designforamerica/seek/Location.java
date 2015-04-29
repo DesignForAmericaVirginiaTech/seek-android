@@ -9,12 +9,14 @@ public class Location {
     private double longitude;
     private double latitude;
     private Boolean def; //default is a reserved keyword
+    private String id;
 
-    public Location(String n, double la, double lo, boolean d) {
+    public Location(String n, double la, double lo, boolean d, String i) {
         this.name = n;
         this.latitude = la;
         this.longitude =lo;
         this.def = d;
+        this.id = i;
     }
 
     public double latitude() {
@@ -31,5 +33,9 @@ public class Location {
 
     public Boolean def() {
         return def;
+    }
+
+    public String id() {
+        return id;
     }
 }

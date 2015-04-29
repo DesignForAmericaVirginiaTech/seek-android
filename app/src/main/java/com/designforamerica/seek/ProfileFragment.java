@@ -45,11 +45,11 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.profile_fragment, container, false);
 
-        Bundle b = getArguments();
-        url = b.getString("url");
-        name = b.getString("name");
-        email = b.getString("email");
-        cover = b.getString("cover");
+        //get the profile information from the application
+        url = Seek.getProfilePic();
+        name = Seek.getName();
+        email = Seek.getEmail();
+        cover = Seek.getCoverPic();
         picture = (ImageView) v.findViewById(R.id.profile_picture);
         nameText = (TextView) v.findViewById(R.id.profile_name);
         emailText = (TextView) v.findViewById(R.id.profile_email);
@@ -60,8 +60,8 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        locations = new ArrayList<Location>();
-        mAdapter = new LoadingAdapter();
+        locations = Seek.getMyLocations();
+        mAdapter = new LocationListAdapter(getActivity(), locations, Seek.getMyLocationsEmpty(), "You have no locations", "Click the + button below to add a location to your profile");
         mRecyclerView.setAdapter(mAdapter);
 
         //load the profile picture and cover photo
@@ -82,10 +82,6 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
                 //this is stuff
             }
         });
-
-        //query for custom locations
-        ph = new ParseHelper(this);
-        ph.queryMyLocations(ParseUser.getCurrentUser().getObjectId());
 
         return v;
     }

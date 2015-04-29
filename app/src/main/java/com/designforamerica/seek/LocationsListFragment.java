@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  * Created by jbruzek on 4/1/15.
  */
-public class LocationsListFragment extends Fragment implements ParseCallbacks {
+public class LocationsListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -37,26 +37,12 @@ public class LocationsListFragment extends Fragment implements ParseCallbacks {
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        locations = new ArrayList<Location>();
-        mAdapter = new LoadingAdapter();
+        locations = Seek.getLocations();
+        //false because there will always be default locations
+        mAdapter = new LocationListAdapter(getActivity(), locations, false, "Database Error", "No locations found");
         mRecyclerView.setAdapter(mAdapter);
-
-        //query for locations
-        ph = new ParseHelper(this);
-        ph.queryLocations();
 
         return v;
-    }
-
-    /**
-     * unless there is something terribly wrong with out database, empty will always be true
-     * @param empty
-     */
-    @Override
-    public void complete(boolean empty) {
-        locations = ph.getLocations();
-        mAdapter = new LocationListAdapter(getActivity(), locations, empty, "Database Error", "No locations found");
-        mRecyclerView.setAdapter(mAdapter);
     }
 
 }
