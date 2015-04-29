@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -88,6 +90,15 @@ public class LocationFragment extends Fragment implements LocationUpdateCallback
         actionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_nav));
         actionButton.show();
         actionButton.bringToFront();
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + lon + "&mode=b");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
 
         //Hide the toolbar when the user scrolls!
 //        scrollView = (ScrollView) v.findViewById(R.id.scroll_view);
