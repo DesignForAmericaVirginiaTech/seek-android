@@ -9,21 +9,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 /**
  * The dialog for logging in the first time you use the app
  * Created by jbruzek on 4/22/15.
  */
-public class LoginDialog extends DialogFragment {
+public class NavChoiceDialog extends DialogFragment {
 
-    public interface LoginDialogListener {
-        public void onDialogPositiveClick(LoginDialog l);
-        public void onDialogNegativeClick(LoginDialog l);
+    public interface NavChoiceDialogListener {
+        public void onWalkClick(NavChoiceDialog l);
+        public void onBicycleClick(NavChoiceDialog l);
+        public void onDriveClick(NavChoiceDialog l);
     }
 
-    private LoginDialogListener mListener;
-    private Button positive;
-    private Button negative;
+    private NavChoiceDialogListener mListener;
+    private LinearLayout walk;
+    private LinearLayout bike;
+    private LinearLayout drive;
 
     @Override
     public void onAttach(Activity activity) {
@@ -31,7 +34,7 @@ public class LoginDialog extends DialogFragment {
 
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            mListener = (LoginDialogListener) activity;
+            mListener = (NavChoiceDialogListener) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
@@ -44,23 +47,33 @@ public class LoginDialog extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.dialog_login, null);
+        View v = inflater.inflate(R.layout.dialog_nav_choice, null);
         builder.setView(v);
 
-        positive = (Button) v.findViewById(R.id.login_with_facebook_button);
-        negative = (Button) v.findViewById(R.id.continue_anonymously_button);
+        walk = (LinearLayout) v.findViewById(R.id.walk_nav_choice);
+        bike = (LinearLayout) v.findViewById(R.id.bike_nav_choice);
+        drive = (LinearLayout) v.findViewById(R.id.drive_nav_choice);
 
-        final LoginDialog dis = this;
-        positive.setOnClickListener(new View.OnClickListener() {
+        final NavChoiceDialog dis = this;
+        walk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onDialogPositiveClick(dis);
+                mListener.onWalkClick(dis);
+                dismiss();
             }
         });
-        negative.setOnClickListener(new View.OnClickListener() {
+        bike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onDialogNegativeClick(dis);
+                mListener.onBicycleClick(dis);
+                dismiss();
+            }
+        });
+        drive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onDriveClick(dis);
+                dismiss();
             }
         });
 

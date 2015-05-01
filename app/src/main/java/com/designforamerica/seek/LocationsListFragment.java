@@ -30,7 +30,6 @@ public class LocationsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.locations_list, container, false);
-        container.removeAllViews();
 
         //set up the recyclerview
         mRecyclerView = (RecyclerView) v.findViewById(R.id.locations_recycler);

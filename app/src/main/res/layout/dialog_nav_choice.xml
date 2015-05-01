@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/primary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_margin="16dp"
+            android:textSize="36dp"
+            android:text="Navigation"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/accent"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/walk_nav_choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/walk"
+            android:layout_margin="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_margin="16dp"
+            android:textColor="@color/black"
+            android:text="Walking"
+            android:textSize="45sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bike_nav_choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/bike"
+            android:layout_margin="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_margin="16dp"
+            android:textColor="@color/black"
+            android:text="Biking"
+            android:textSize="45sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/drive_nav_choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/drive"
+            android:layout_margin="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_margin="16dp"
+            android:textColor="@color/black"
+            android:text="Driving"
+            android:textSize="45sp"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

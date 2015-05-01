@@ -32,7 +32,7 @@ import com.software.shell.fab.ActionButton;
 /**
  * Created by jbruzek on 4/3/15.
  */
-public class LocationFragment extends Fragment implements LocationUpdateCallbacks {
+public class LocationFragment extends Fragment implements LocationUpdateCallbacks, NavChoiceDialog.NavChoiceDialogListener {
 
     private TextView title;
     private TextView distance;
@@ -93,10 +93,6 @@ public class LocationFragment extends Fragment implements LocationUpdateCallback
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + lon + "&mode=b");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
             }
         });
 
@@ -174,6 +170,30 @@ public class LocationFragment extends Fragment implements LocationUpdateCallback
      */
     private double rad2deg(double rad) {
         return (rad * 180 / Math.PI);
+    }
+
+    @Override
+    public void onWalkClick(NavChoiceDialog l) {
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + lon + "&mode=w");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
+    }
+
+    @Override
+    public void onBicycleClick(NavChoiceDialog l) {
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + lon + "&mode=b");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
+    }
+
+    @Override
+    public void onDriveClick(NavChoiceDialog l) {
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + lon + "&mode=d");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
     private class DeleteDialog extends DialogFragment {
