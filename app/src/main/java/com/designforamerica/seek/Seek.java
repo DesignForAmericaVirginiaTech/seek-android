@@ -236,7 +236,6 @@ public class Seek extends Application implements ParseCallbacks {
     }
 
     public static ArrayList<Location> getFavoriteLocations() {
-        Log.d("SEEK", "Favorites size: " + favoriteLocations.size());
         return favoriteLocations;
     }
 

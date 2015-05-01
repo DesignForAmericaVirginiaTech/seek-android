@@ -128,7 +128,6 @@ public class ParseHelper {
      * @param id
      */
     public void addFavorite(String id) {
-        Log.d("FAVORITE", "adding favorite in Parse: " + id);
         ParseUser user = ParseUser.getCurrentUser();
         ParseObject favorite = new ParseObject("favorites");
         favorite.put("uid", user.getObjectId());
@@ -141,7 +140,6 @@ public class ParseHelper {
      * @param id
      */
     public void removeFavorite(String id) {
-        Log.d("FAVORITE", "removing favorite in Parse: " + id);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("favorites");
         query.whereEqualTo("lid", id);
         query.findInBackground(new FindCallback<ParseObject>() {

@@ -70,12 +70,6 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
      */
     public LocationListAdapter(Context c, ArrayList<Location> myDataset, boolean empty, String error1, String error2) {
         context = c;
-        //if there is already something in the dataset, clear it
-        if (mDataset != null && !myDataset.isEmpty()) {
-            mDataset.clear();
-        }
-
-        Log.d("FAVORITE", "adapter parameter size: " + myDataset.size());
         //copy the values, not the actual arraylist
         mDataset = new ArrayList<Location>(myDataset.size());
         mDataset.addAll(myDataset);
