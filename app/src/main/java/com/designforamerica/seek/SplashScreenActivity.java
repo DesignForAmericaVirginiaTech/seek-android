@@ -241,7 +241,11 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
      */
     @Override
     public void complete(boolean empty) {
-        if (Seek.complete()) {  //if all the callbacks have returned
+        //if all the callbacks have returned
+        if (Seek.complete()) {
+            //process all the locations in Seek
+            Seek.processLocations();
+            //and launch
             launchMainActivity(name, firstName, lastName, email, profilePic, coverPic);
         }
     }

@@ -10,6 +10,7 @@ public class Location {
     private double latitude;
     private Boolean def; //default is a reserved keyword
     private String id;
+    private Boolean favorite;
 
     public Location(String n, double la, double lo, boolean d, String i) {
         this.name = n;
@@ -17,6 +18,15 @@ public class Location {
         this.longitude =lo;
         this.def = d;
         this.id = i;
+        favorite = false;
+    }
+
+    public void favorite(boolean fav) {
+        favorite = fav;
+    }
+
+    public boolean favorite() {
+        return favorite;
     }
 
     public double latitude() {

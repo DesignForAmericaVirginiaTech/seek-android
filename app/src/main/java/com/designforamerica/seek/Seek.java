@@ -12,6 +12,7 @@ import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Application class for Seek
@@ -27,7 +28,7 @@ import java.util.ArrayList;
  *
  * Created by jbruzek on 3/26/15.
  */
-public class Seek extends Application {
+public class Seek extends Application implements ParseCallbacks {
     private final static int MAX_LIST_SIZE = 10000;
     private static ArrayList<Location> locations;
     private static ArrayList<Distance> distances;
@@ -35,6 +36,8 @@ public class Seek extends Application {
     private static boolean favorites_empty;
     private static ArrayList<Location> myLocations;
     private static boolean myLocations_empty;
+    private static ArrayList<Location> favoriteLocations;
+    private static ArrayList<Location> allLocations;
 
     //User information, grabbable from anywhere in the app publicly
     //These values are set once in the splash screen.
@@ -45,10 +48,14 @@ public class Seek extends Application {
     private static String profilePic;
     private static String coverPic;
 
+    private static ParseHelper ph;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        ph = new ParseHelper(this);
 
         //Do Parse stuff
         //OLD ONE
@@ -71,6 +78,20 @@ public class Seek extends Application {
     }
 
     /**
+     * get a location by the location id
+     *
+     * returns null if no location found
+     */
+    public static Location getLocation(String id) {
+        for (Location l : allLocations) {
+            if (l.id().equals(id)) {
+                return l;
+            }
+        }
+        return null;
+    }
+
+    /**
      * return if all the information that needs to be loaded is loaded.
      * @return
      */
@@ -88,15 +109,73 @@ public class Seek extends Application {
         coverPic = cp;
     }
 
+    /**
+     * Go through default locations and myLocations to make one locations list
+     * then add the favorite locations to their list.
+     */
+    public static void processLocations() {
+        allLocations = new ArrayList<Location>(locations.size() + myLocations.size());
+        allLocations.addAll(locations);
+        allLocations.addAll(myLocations);
+        processFavorites();
+    }
+
+    /**
+     * go through the favorites list and the locations list to make a list of favorite locations
+     */
+    public static void processFavorites() {
+        favoriteLocations = new ArrayList<Location>();
+
+        for (int i = 0; i < allLocations.size(); i++) {
+            if (favorites.contains(allLocations.get(i).id())) {
+                favoriteLocations.add(allLocations.get(i));
+                allLocations.get(i).favorite(true);
+            }
+        }
+
+        favorites_empty = favoriteLocations.isEmpty();
+    }
+
+    /**
+     * set a location to favorite
+     * @param id
+     */
+    public static void addFavorite(String id) {
+        for (int i = 0; i < allLocations.size(); i++) {
+            if (allLocations.get(i).id().equals(id)) {
+                Log.d("FAVORITE", "add found " + id);
+                allLocations.get(i).favorite(true);
+                if (!favoriteLocations.contains(allLocations.get(i))) {
+                    Log.d("FAVORITE", "adding favorite: " + id);
+                    favoriteLocations.add(allLocations.get(i));
+                }
+                ph.addFavorite(id);
+            }
+        }
+        favorites_empty = favoriteLocations.isEmpty();
+    }
+
+    /**
+     * remove favorite from a location
+     * @param id
+     */
+    public static void removeFavorite(String id) {
+        for (int i = 0; i < favoriteLocations.size(); i++) {
+            if (favoriteLocations.get(i).id().equals(id)) {
+                favoriteLocations.get(i).favorite(false);
+                favoriteLocations.remove(i);
+                ph.removeFavorite(id);
+            }
+        }
+        favorites_empty = favoriteLocations.isEmpty();
+    }
+
     public static void setLocations(ArrayList<Location> loc) {
         locations = loc;
     }
 
     public static ArrayList<Location> getLocations() {
-        ArrayList<Location> result = new ArrayList<Location>(locations.size() + myLocations.size());
-        result.addAll(locations);
-        result.addAll(myLocations);
-        return result;
+        return allLocations;
     }
 
     public static void setDistances(ArrayList<Distance> dis) {
@@ -107,9 +186,8 @@ public class Seek extends Application {
         return distances;
     }
 
-    public static void setFavorites(ArrayList<String> fav, boolean fempty) {
+    public static void setFavorites(ArrayList<String> fav) {
         favorites = fav;
-        favorites_empty = fempty;
     }
 
     public static ArrayList<String> getFavorites() {
@@ -157,19 +235,17 @@ public class Seek extends Application {
         return coverPic;
     }
 
-    /**
-     * return an arrayList of your favorite locations
-     * @return
-     */
     public static ArrayList<Location> getFavoriteLocations() {
-        ArrayList<Location> results = new ArrayList<Location>();
+        Log.d("SEEK", "Favorites size: " + favoriteLocations.size());
+        return favoriteLocations;
+    }
 
-        for (int i = 0; i < locations.size(); i++) {
-            if (favorites.contains(locations.get(i).id())) {
-                results.add(locations.get(i));
-            }
-        }
-
-        return results;
+    /**
+     * when the parsehelper returns a result
+     * @param empty
+     */
+    @Override
+    public void complete(boolean empty) {
+        //cool beans
     }
 }

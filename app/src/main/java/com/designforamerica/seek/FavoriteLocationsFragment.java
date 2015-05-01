@@ -22,9 +22,7 @@ public class FavoriteLocationsFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private ParseHelper ph;
     private View v;
-    private ArrayList<Location> locations;
 
     /**
      * initialize
@@ -39,8 +37,9 @@ public class FavoriteLocationsFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        locations = Seek.getFavoriteLocations();
-        mAdapter = new LocationListAdapter(getActivity(), locations, Seek.getFavoritesEmpty(), "You have no favorite Locations", "You can add a location to your favorites by clicking the star icon in the upper right of a location page.");
+        Log.d("FAVORITE", "favorites empty? " + Seek.getFavoritesEmpty());
+        Log.d("FAVORITE", "favorite sending size: " + Seek.getFavoriteLocations().size());
+        mAdapter = new LocationListAdapter(getActivity(), Seek.getFavoriteLocations(), Seek.getFavoritesEmpty(), "You have no favorite Locations", "You can add a location to your favorites by clicking the star icon in the upper right of a location page.");
         mRecyclerView.setAdapter(mAdapter);
 
         return v;

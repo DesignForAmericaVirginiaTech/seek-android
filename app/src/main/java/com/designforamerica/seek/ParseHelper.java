@@ -93,7 +93,7 @@ public class ParseHelper {
                     for(ParseObject p : list) {
                         favorites.add(p.getString("lid"));
                     }
-                    Seek.setFavorites(favorites, favorites.isEmpty());
+                    Seek.setFavorites(favorites);
                     pc.complete(favorites.isEmpty());
                 } else {
                     Log.d("Query", "Error: " + e.getMessage());
@@ -116,6 +116,40 @@ public class ParseHelper {
                     }
                     Seek.setDistances(distances);
                     pc.complete(distances.isEmpty());
+                } else {
+                    Log.d("Query", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    /**
+     * add a location object in the background
+     * @param id
+     */
+    public void addFavorite(String id) {
+        Log.d("FAVORITE", "adding favorite in Parse: " + id);
+        ParseUser user = ParseUser.getCurrentUser();
+        ParseObject favorite = new ParseObject("favorites");
+        favorite.put("uid", user.getObjectId());
+        favorite.put("lid", id);
+        favorite.saveInBackground();
+    }
+
+    /**
+     * remove a favorite from the database
+     * @param id
+     */
+    public void removeFavorite(String id) {
+        Log.d("FAVORITE", "removing favorite in Parse: " + id);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("favorites");
+        query.whereEqualTo("lid", id);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> list, ParseException e) {
+                if (e == null) {
+                    for(ParseObject p : list) {
+                        p.deleteInBackground();
+                    }
                 } else {
                     Log.d("Query", "Error: " + e.getMessage());
                 }

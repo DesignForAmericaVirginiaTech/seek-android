@@ -54,10 +54,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
                 Log.d("onClickLocation", l.longitude() + " " + l.latitude());
                 //clicked an item in the list
                 Intent i = new Intent(context, LocationActivity.class);
-                i.putExtra("title", l.name());
-                i.putExtra("lon", (Double) l.longitude());
-                i.putExtra("lat", (Double) l.latitude());
-                i.putExtra("def", l.def());
+                i.putExtra("id", l.id());
                 context.startActivity(i);
             }
         }
@@ -73,12 +70,20 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
      */
     public LocationListAdapter(Context c, ArrayList<Location> myDataset, boolean empty, String error1, String error2) {
         context = c;
-        mDataset = myDataset;
+        //if there is already something in the dataset, clear it
+        if (mDataset != null && !myDataset.isEmpty()) {
+            mDataset.clear();
+        }
+
+        Log.d("FAVORITE", "adapter parameter size: " + myDataset.size());
+        //copy the values, not the actual arraylist
+        mDataset = new ArrayList<Location>(myDataset.size());
+        mDataset.addAll(myDataset);
         this.empty = empty;
         e1 = error1;
         e2 = error2;
         //need to add a blank element if the query returned no results
-        if (empty) {
+        if (empty && mDataset.isEmpty()) {
             mDataset.add(new Location("", 0, 0, false, ""));
         }
     }

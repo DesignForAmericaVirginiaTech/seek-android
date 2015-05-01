@@ -43,12 +43,8 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
     private Button delete;
     private MapView mapView;
     private GoogleMap map;
-    private String name;
-    private Double lat;
-    private Double lon;
-    private Boolean def;
+    private Location location;
 
-    private boolean favorite = false;
     protected GoogleApiClient mGoogleApiClient;
     protected android.location.Location mLastLocation;
 
@@ -73,22 +69,19 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setMyLocationEnabled(true);
 
-        name = intent.getStringExtra("title");
-        lat = intent.getDoubleExtra("lat", 0);
-        lon = intent.getDoubleExtra("lon", 0);
-        def = intent.getBooleanExtra("def", true);
+        location = Seek.getLocation(intent.getStringExtra("id"));
 
         MapsInitializer.initialize(this);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 15);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude(), location.longitude()), 15);
         map.moveCamera(cameraUpdate);
 
-        map.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(name));
+        map.addMarker(new MarkerOptions().position(new LatLng(location.latitude(), location.longitude())).title(location.name()));
 
         title = (TextView) findViewById(R.id.location_title);
-        title.setText(name);
+        title.setText(location.name());
         distance = (TextView) findViewById(R.id.location_distance);
         delete = (Button) findViewById(R.id.delete_location_button);
-        if (def) {
+        if (location.def()) {
             ((LinearLayout)delete.getParent()).removeView(delete);
         } else {
             delete.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +113,18 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.location, menu);
+        MenuItem fav = menu.findItem(R.id.favorite);
+
+        //set the favorite icon
+        if (location.favorite()) {
+            Drawable d = fav.getIcon();
+            d.setColorFilter( 0xffffff00, PorterDuff.Mode.MULTIPLY );
+            fav.setIcon(d);
+        } else {
+            Drawable d = fav.getIcon();
+            d.clearColorFilter();
+            fav.setIcon(d);
+        }
         return true;
     }
 
@@ -130,16 +135,16 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
             super.onBackPressed();
         }
         if (id == R.id.favorite) {
-            if (favorite) {
+            if (location.favorite()) {
                 Drawable d = item.getIcon();
                 d.clearColorFilter();
                 item.setIcon(d);
-                favorite = false;
+                Seek.removeFavorite(location.id());
             } else {
                 Drawable d = item.getIcon();
                 d.setColorFilter( 0xffffff00, PorterDuff.Mode.MULTIPLY );
                 item.setIcon(d);
-                favorite = true;
+                Seek.addFavorite(location.id());
             }
             return true;
         }
@@ -210,7 +215,7 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
     }
 
     public void locationUpdated(double latitude, double longitude) {
-        double d = distance(lat, lon, latitude, longitude);
+        double d = distance(location.latitude(), location.longitude(), latitude, longitude);
 
         distance.setText(d + " miles away");
     }
@@ -250,7 +255,7 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
 
     @Override
     public void onWalkClick(NavChoiceDialog l) {
-        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + lon + "&mode=w");
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + location.latitude() + "," + location.longitude() + "&mode=w");
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
@@ -258,7 +263,7 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
 
     @Override
     public void onBicycleClick(NavChoiceDialog l) {
-        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + lon + "&mode=b");
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + location.latitude() + "," + location.longitude() + "&mode=b");
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
@@ -266,7 +271,7 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
 
     @Override
     public void onDriveClick(NavChoiceDialog l) {
-        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + lon + "&mode=d");
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + location.latitude() + "," + location.longitude() + "&mode=d");
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
