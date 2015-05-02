@@ -15,12 +15,13 @@ import java.util.ArrayList;
 /**
  * This class is an adapter for a recyclerview. It displays the Locations
  */
-public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.ViewHolder> {
+public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.ViewHolder> implements LocationListener {
     private ArrayList<Location> mDataset;
     private boolean empty = false;
     private String e1;
     private String e2;
     private Context context;
+    private int type;
 
     /**
      * The viewholder class.
@@ -63,23 +64,19 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     /**
      * Constructor for the LocationsAdapter
      *
-     * @param myDataset
      * @param empty is the result an empty list>
      * @param error1 the title of the empty list error message
      * @param error2 the subtitle of the empty list error message
+     * @param type 0: all locations 1: my locations 2: favorite locations
      */
-    public LocationListAdapter(Context c, ArrayList<Location> myDataset, boolean empty, String error1, String error2) {
+    public LocationListAdapter(Context c, int type, String error1, String error2) {
+        Seek.registerListener(this);
         context = c;
-        //copy the values, not the actual arraylist
-        mDataset = new ArrayList<Location>(myDataset.size());
-        mDataset.addAll(myDataset);
-        this.empty = empty;
+        this.type = type;
         e1 = error1;
         e2 = error2;
-        //need to add a blank element if the query returned no results
-        if (empty && mDataset.isEmpty()) {
-            mDataset.add(new Location("", 0, 0, false, ""));
-        }
+
+        loadData();
     }
 
     /**
@@ -126,5 +123,40 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    /**
+     * load the location items into mDataSet based off what the type is
+     */
+    private void loadData() {
+        switch(type) {
+            case 0:
+                mDataset = new ArrayList<Location>(Seek.getLocations().size());
+                mDataset.addAll(Seek.getLocations());
+                break;
+            case 1:
+                mDataset = new ArrayList<Location>(Seek.getMyLocations().size());
+                mDataset.addAll(Seek.getMyLocations());
+
+                break;
+            case 2:
+                mDataset = new ArrayList<Location>(Seek.getFavoriteLocations().size());
+                mDataset.addAll(Seek.getFavoriteLocations());
+                break;
+        }
+
+        //need to add a blank element if the query returned no results
+        if (mDataset.isEmpty()) {
+            mDataset.add(new Location("", 0, 0, false, ""));
+        }
+    }
+
+    /**
+     * callback from the Application class that the data has been changed
+     */
+    @Override
+    public void locationsChanged() {
+        loadData();
+        notifyDataSetChanged();
     }
 }

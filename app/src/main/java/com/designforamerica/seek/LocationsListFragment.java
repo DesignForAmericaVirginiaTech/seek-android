@@ -20,9 +20,7 @@ public class LocationsListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private ParseHelper ph;
     private View v;
-    private ArrayList<Location> locations;
 
     /**
      * initialize
@@ -36,9 +34,8 @@ public class LocationsListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        locations = Seek.getLocations();
         //false because there will always be default locations
-        mAdapter = new LocationListAdapter(getActivity(), locations, false, "Database Error", "No locations found");
+        mAdapter = new LocationListAdapter(getActivity(), 0, "Database Error", "No locations found");
         mRecyclerView.setAdapter(mAdapter);
 
         return v;

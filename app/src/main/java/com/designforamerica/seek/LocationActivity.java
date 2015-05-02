@@ -145,6 +145,7 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
             Intent i = new Intent(this, EditLocationActivity.class);
             i.putExtra("id", location.id());
             startActivity(i);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -24,9 +24,8 @@ import java.util.ArrayList;
  *
  * Created by jbruzek on 4/1/15.
  */
-public class ProfileFragment extends Fragment implements ParseCallbacks {
+public class ProfileFragment extends Fragment {
 
-    private ParseHelper ph;
     private ImageView picture;
     private TextView nameText;
     private TextView emailText;
@@ -68,7 +67,7 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         locations = Seek.getMyLocations();
-        mAdapter = new LocationListAdapter(getActivity(), locations, Seek.getMyLocationsEmpty(), "You have no locations", "Click the + button below to add a location to your profile");
+        mAdapter = new LocationListAdapter(getActivity(), 1, "You have no locations", "Click the + button below to add a location to your profile");
         mRecyclerView.setAdapter(mAdapter);
 
         //load the profile picture and cover photo
@@ -94,16 +93,5 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         });
 
         return v;
-    }
-
-    /**
-     * background query has completed.
-     * @param empty
-     */
-    @Override
-    public void complete(boolean empty) {
-        locations = ph.getLocations();
-        mAdapter = new LocationListAdapter(getActivity(), locations, empty, "You have no locations", "Click the + button below to add a location to your profile");
-        mRecyclerView.setAdapter(mAdapter);
     }
 }

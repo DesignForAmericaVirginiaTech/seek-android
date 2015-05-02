@@ -40,6 +40,9 @@ public class Seek extends Application implements ParseCallbacks {
     private static ArrayList<Location> favoriteLocations;
     private static ArrayList<Location> allLocations;
 
+    /* A list of all the LocationListeners that depend on callbacks */
+    private static ArrayList<LocationListener> listeners;
+
     //User information, grabbable from anywhere in the app publicly
     //These values are set once in the splash screen.
     private static String name;
@@ -56,6 +59,7 @@ public class Seek extends Application implements ParseCallbacks {
     public void onCreate() {
         super.onCreate();
 
+        listeners = new ArrayList<LocationListener>();
         ph = new ParseHelper(this);
 
         //Do Parse stuff
@@ -76,6 +80,23 @@ public class Seek extends Application implements ParseCallbacks {
                 }
             }
         });
+    }
+
+    /**
+     * register a locationListener. Add it to the list
+     * @param ll
+     */
+    public static void registerListener(LocationListener ll) {
+        listeners.add(ll);
+    }
+
+    /**
+     * alert all the locations that there has been a change in the data
+     */
+    private static void alertListeners() {
+        for (LocationListener l : listeners) {
+            l.locationsChanged();
+        }
     }
 
     /**
@@ -154,6 +175,7 @@ public class Seek extends Application implements ParseCallbacks {
             }
         }
         favorites_empty = favoriteLocations.isEmpty();
+        alertListeners();
     }
 
     /**
@@ -169,6 +191,7 @@ public class Seek extends Application implements ParseCallbacks {
             }
         }
         favorites_empty = favoriteLocations.isEmpty();
+        alertListeners();
     }
 
     /**
@@ -180,7 +203,8 @@ public class Seek extends Application implements ParseCallbacks {
         favoriteLocations.remove(l);
         myLocations.remove(l);
 
-        //ph.remove(l.id());
+        ph.remove(l);
+        alertListeners();
     }
 
     /**
@@ -195,6 +219,7 @@ public class Seek extends Application implements ParseCallbacks {
         l.longitude(newLoc.longitude);
 
         ph.update(l);
+        alertListeners();
     }
 
     /**
@@ -206,6 +231,7 @@ public class Seek extends Application implements ParseCallbacks {
         myLocations.add(l);
 
         ph.addLocation(l);
+        alertListeners();
     }
 
     public static void setLocations(ArrayList<Location> loc) {

@@ -202,6 +202,28 @@ public class ParseHelper {
             }
         });
     }
+
+    /**
+     * delete a location
+     * @param l
+     */
+    public void remove(Location l) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("locations");
+        query.whereEqualTo("objectId", l.id());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> locList, ParseException e) {
+                if (e == null) {
+                    for(ParseObject p : locList) {
+                        //found it. Delete it.
+                        p.deleteInBackground();
+                    }
+                } else {
+                    Log.d("Query", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
     /**
      * return the arraylist of locations
      * @return
