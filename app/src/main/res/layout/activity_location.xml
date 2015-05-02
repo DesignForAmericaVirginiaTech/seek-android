@@ -46,7 +46,17 @@
                             android:layout_marginBottom="16dp"
                             android:layout_marginTop="24dp" />
 
+                        <ProgressBar
+                            android:id="@+id/walk_spinner"
+                            style="Spinner"
+                            android:layout_marginLeft="72dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+                        </ProgressBar>
+
                         <TextView
+                            android:id="@+id/walk_time"
                             android:layout_width="wrap_content"
                             android:layout_height="72dp"
                             android:layout_marginRight="16dp"
@@ -71,7 +81,17 @@
                             android:src="@drawable/bike"
                             android:layout_margin="16dp" />
 
+                        <ProgressBar
+                            android:id="@+id/bike_spinner"
+                            style="Spinner"
+                            android:layout_marginLeft="72dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+                        </ProgressBar>
+
                         <TextView
+                            android:id="@+id/bike_time"
                             android:layout_width="wrap_content"
                             android:layout_height="72dp"
                             android:layout_margin="16dp"
@@ -93,7 +113,17 @@
                             android:src="@drawable/drive"
                             android:layout_margin="16dp" />
 
+                        <ProgressBar
+                            android:id="@+id/drive_spinner"
+                            style="Spinner"
+                            android:layout_marginLeft="72dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+                        </ProgressBar>
+
                         <TextView
+                            android:id="@+id/drive_time"
                             android:layout_width="wrap_content"
                             android:layout_height="72dp"
                             android:layout_margin="16dp"
@@ -115,7 +145,17 @@
                             android:src="@drawable/drive"
                             android:layout_margin="16dp" />
 
+                        <ProgressBar
+                            android:id="@+id/bus_spinner"
+                            style="Spinner"
+                            android:layout_marginLeft="72dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+                        </ProgressBar>
+
                         <TextView
+                            android:id="@+id/bus_time"
                             android:layout_width="wrap_content"
                             android:layout_height="72dp"
                             android:layout_margin="16dp"
