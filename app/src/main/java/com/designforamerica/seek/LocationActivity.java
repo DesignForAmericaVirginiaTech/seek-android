@@ -80,18 +80,6 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
         title = (TextView) findViewById(R.id.location_title);
         title.setText(location.name());
         distance = (TextView) findViewById(R.id.location_distance);
-        delete = (Button) findViewById(R.id.delete_location_button);
-        if (location.def()) {
-            ((LinearLayout)delete.getParent()).removeView(delete);
-        } else {
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DeleteDialog dd = new DeleteDialog();
-                    dd.show(getFragmentManager(), "delete");
-                }
-            });
-        }
 
         ActionButton actionButton = (ActionButton) findViewById(R.id.action_button);
         actionButton.setButtonColor(getResources().getColor(R.color.accent));
@@ -113,8 +101,12 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.location, menu);
-        MenuItem fav = menu.findItem(R.id.favorite);
 
+        if (location.def()) {
+            menu.removeItem(R.id.edit);
+        }
+
+        MenuItem fav = menu.findItem(R.id.favorite);
         //set the favorite icon
         if (location.favorite()) {
             Drawable d = fav.getIcon();
@@ -147,6 +139,12 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
                 Seek.addFavorite(location.id());
             }
             return true;
+        }
+
+        else if (id == R.id.edit) {
+            Intent i = new Intent(this, EditLocationActivity.class);
+            i.putExtra("id", location.id());
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

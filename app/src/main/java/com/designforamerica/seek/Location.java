@@ -33,12 +33,24 @@ public class Location {
         return latitude;
     }
 
+    public void latitude(double lat) {
+        latitude = lat;
+    }
+
     public double longitude() {
         return longitude;
     }
 
+    public void longitude(double lon) {
+        longitude = lon;
+    }
+
     public String name() {
         return name;
+    }
+
+    public void name(String name) {
+        this.name = name;
     }
 
     public Boolean def() {

@@ -5,6 +5,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.FacebookSdk;
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -168,6 +169,32 @@ public class Seek extends Application implements ParseCallbacks {
             }
         }
         favorites_empty = favoriteLocations.isEmpty();
+    }
+
+    /**
+     * delete the location from all the lists and the parse database
+     * @param l
+     */
+    public static void deleteLocation(Location l) {
+        allLocations.remove(l);
+        favoriteLocations.remove(l);
+        myLocations.remove(l);
+
+        //ph.remove(l.id());
+    }
+
+    /**
+     * update a location with new information
+     * @param l the location to update
+     * @param name
+     * @param newLoc
+     */
+    public static void updateLocation(Location l, String name, LatLng newLoc) {
+        l.name(name);
+        l.latitude(newLoc.latitude);
+        l.longitude(newLoc.longitude);
+
+        ph.update(l);
     }
 
     public static void setLocations(ArrayList<Location> loc) {

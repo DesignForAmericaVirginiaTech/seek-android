@@ -8,4 +8,10 @@
         android:title="Favorite"
         android:icon="@drawable/ic_favorite"
         app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/edit"
+        android:orderInCategory="100"
+        android:title="Edit"
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="ifRoom" />
 </menu>

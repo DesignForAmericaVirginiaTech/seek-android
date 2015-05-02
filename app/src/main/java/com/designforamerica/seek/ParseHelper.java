@@ -3,6 +3,7 @@ package com.designforamerica.seek;
 import android.util.Log;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -145,11 +146,31 @@ public class ParseHelper {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
-                    for(ParseObject p : list) {
+                    for (ParseObject p : list) {
                         p.deleteInBackground();
                     }
                 } else {
                     Log.d("Query", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    /**
+     * update a location in the database
+     * @param l
+     */
+    public void update(final Location l) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("locations");
+
+        // Retrieve the object by id
+        query.getInBackground(l.id(), new GetCallback<ParseObject>() {
+            public void done(ParseObject obj, ParseException e) {
+                if (e == null) {
+                    obj.put("name", l.name());
+                    obj.put("latitude", l.latitude());
+                    obj.put("longitude", l.longitude());
+                    obj.saveInBackground();
                 }
             }
         });
