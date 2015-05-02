@@ -60,4 +60,8 @@ public class Location {
     public String id() {
         return id;
     }
+
+    public void id(String id) {
+        this.id = id;
+    }
 }

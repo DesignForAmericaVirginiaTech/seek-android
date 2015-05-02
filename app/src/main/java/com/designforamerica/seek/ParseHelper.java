@@ -8,6 +8,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,6 +177,31 @@ public class ParseHelper {
         });
     }
 
+    /**
+     * add a location to the parse database
+     * @param l
+     */
+    public void addLocation(final Location l) {
+        final ParseObject obj = new ParseObject("locations");
+        obj.put("name", l.name());
+        obj.put("latitude", l.latitude());
+        obj.put("longitude", l.longitude());
+        obj.put("default", false);
+        obj.put("uid", ParseUser.getCurrentUser().getObjectId());
+        obj.saveInBackground(new SaveCallback() {
+            /**
+             * after the object has been saved in the background, we update the location
+             * object with the objectId from the database.
+             *
+             * Declaring the ParseObject final, we are able to access these fields after it's
+             * been saved without making an additional query.
+             */
+            @Override
+            public void done(ParseException e) {
+                l.id(obj.getObjectId());
+            }
+        });
+    }
     /**
      * return the arraylist of locations
      * @return

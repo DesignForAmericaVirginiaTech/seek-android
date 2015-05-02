@@ -1,6 +1,7 @@
 package com.designforamerica.seek;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,8 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
     private ArrayList<Location> locations;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    private double latitude;
+    private double longitude;
 
     /**
      * initialize
@@ -44,6 +47,10 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.profile_fragment, container, false);
+
+        Bundle b = getArguments();
+        latitude = b.getDouble("lat");
+        longitude = b.getDouble("lon");
 
         //get the profile information from the application
         url = Seek.getProfilePic();
@@ -79,7 +86,10 @@ public class ProfileFragment extends Fragment implements ParseCallbacks {
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //this is stuff
+                Intent i = new Intent(getActivity(), AddLocationActivity.class);
+                i.putExtra("lat", latitude);
+                i.putExtra("lon", longitude);
+                startActivity(i);
             }
         });
 

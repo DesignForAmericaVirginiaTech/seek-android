@@ -197,6 +197,17 @@ public class Seek extends Application implements ParseCallbacks {
         ph.update(l);
     }
 
+    /**
+     * add a location to the database and lists
+     * @param l
+     */
+    public static void addLocation(Location l) {
+        allLocations.add(l);
+        myLocations.add(l);
+
+        ph.addLocation(l);
+    }
+
     public static void setLocations(ArrayList<Location> loc) {
         locations = loc;
     }

@@ -203,6 +203,10 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
                 if (getFragmentManager().findFragmentById(R.layout.profile_fragment) == null) {
                     proFrag = new ProfileFragment();
                 }
+                b = new Bundle();
+                b.putDouble("lat", mCurrentLocation.getLatitude());
+                b.putDouble("lon", mCurrentLocation.getLongitude());
+                proFrag.setArguments(b);
                 getFragmentManager().beginTransaction().replace(R.id.container, proFrag).commit();
                 break;
             case 3:
