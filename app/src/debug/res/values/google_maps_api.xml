@@ -4,7 +4,7 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=36:92:0D:8A:47:A5:6F:AB:74:73:2F:B6:14:F6:77:52:F9:45:F9:A7%3Bcom.designforamerica.seek
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=36:92:0D:8A:47:A5:6F:AB:74:73:2F:B6:14:F6:77:52:F9:45:F9:A7%3Bcom.designforamerica.seek
 
     You can also add your credentials to an existing key, using this line:
     36:92:0D:8A:47:A5:6F:AB:74:73:2F:B6:14:F6:77:52:F9:45:F9:A7;com.designforamerica.seek
@@ -15,4 +15,6 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
         AIzaSyDIGNh3P7zUYRzhKO3wFg2kIrzR0UZ43Ks
     </string>
+
+    <string name="server_key">AIzaSyD5c6njDBuKaKlgtIUsGRX0wdelwBBP50Q</string>
 </resources>
