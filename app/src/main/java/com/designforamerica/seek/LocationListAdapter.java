@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * This class is an adapter for a recyclerview. It displays the Locations
  */
-public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.ViewHolder> implements LocationListener {
+public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.ViewHolder> {
     private ArrayList<Location> mDataset;
     private boolean empty = false;
     private String e1;
@@ -52,7 +52,6 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         @Override
         public void onClick(View v) {
             if (!empty) {
-                Log.d("onClickLocation", l.longitude() + " " + l.latitude());
                 //clicked an item in the list
                 Intent i = new Intent(context, LocationActivity.class);
                 i.putExtra("id", l.id());
@@ -64,13 +63,11 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     /**
      * Constructor for the LocationsAdapter
      *
-     * @param empty is the result an empty list>
      * @param error1 the title of the empty list error message
      * @param error2 the subtitle of the empty list error message
      * @param type 0: all locations 1: my locations 2: favorite locations
      */
     public LocationListAdapter(Context c, int type, String error1, String error2) {
-        Seek.registerListener(this);
         context = c;
         this.type = type;
         e1 = error1;
@@ -83,8 +80,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
      * create the views to populate the recyclerview
      */
     @Override
-    public LocationListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                            int viewType) {
+    public LocationListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View view;
         if (empty) {
@@ -98,7 +94,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(LocationListAdapter.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         if (!empty) {
@@ -131,32 +127,26 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     private void loadData() {
         switch(type) {
             case 0:
-                mDataset = new ArrayList<Location>(Seek.getLocations().size());
+                mDataset = new ArrayList<Location>();
                 mDataset.addAll(Seek.getLocations());
+                empty = mDataset.isEmpty();
                 break;
             case 1:
-                mDataset = new ArrayList<Location>(Seek.getMyLocations().size());
+                mDataset = new ArrayList<Location>();
                 mDataset.addAll(Seek.getMyLocations());
+                empty = mDataset.isEmpty();
 
                 break;
             case 2:
-                mDataset = new ArrayList<Location>(Seek.getFavoriteLocations().size());
+                mDataset = new ArrayList<Location>();
                 mDataset.addAll(Seek.getFavoriteLocations());
+                empty = mDataset.isEmpty();
                 break;
         }
 
         //need to add a blank element if the query returned no results
-        if (mDataset.isEmpty()) {
+        if (empty) {
             mDataset.add(new Location("", 0, 0, false, ""));
         }
-    }
-
-    /**
-     * callback from the Application class that the data has been changed
-     */
-    @Override
-    public void locationsChanged() {
-        loadData();
-        notifyDataSetChanged();
     }
 }

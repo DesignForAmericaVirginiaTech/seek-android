@@ -24,7 +24,7 @@ import java.util.ArrayList;
  *
  * Created by jbruzek on 4/1/15.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements LocationListener {
 
     private ImageView picture;
     private TextView nameText;
@@ -47,6 +47,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.profile_fragment, container, false);
 
+        Seek.registerListener(this);
         Bundle b = getArguments();
         latitude = b.getDouble("lat");
         longitude = b.getDouble("lon");
@@ -93,5 +94,14 @@ public class ProfileFragment extends Fragment {
         });
 
         return v;
+    }
+
+    /**
+     * callback from the Application class that the data has been changed
+     */
+    @Override
+    public void locationsChanged() {
+        mAdapter = new LocationListAdapter(getActivity(), 1, "You have no locations", "Click the + button below to add a location to your profile");
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

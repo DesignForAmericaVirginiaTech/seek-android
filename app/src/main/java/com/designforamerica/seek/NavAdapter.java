@@ -50,7 +50,7 @@ public class NavAdapter extends RecyclerView.Adapter<NavAdapter.ViewHolder>{
         View parent;
 
 
-        public ViewHolder(View itemView,int ViewType, Context c) {
+        public ViewHolder(View itemView, int ViewType, Context c) {
             super(itemView);
             this.parent = itemView;
 

@@ -18,7 +18,7 @@ import java.util.ArrayList;
  *
  * Created by jbruzek on 4/26/15.
  */
-public class FavoriteLocationsFragment extends Fragment {
+public class FavoriteLocationsFragment extends Fragment implements LocationListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -31,6 +31,7 @@ public class FavoriteLocationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.locations_list, container, false);
         container.removeAllViews();
+        Seek.registerListener(this);
 
         //set up recyclerview
         mRecyclerView = (RecyclerView) v.findViewById(R.id.locations_recycler);
@@ -41,6 +42,15 @@ public class FavoriteLocationsFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
+    }
+
+    /**
+     * callback from the Application class that the data has been changed
+     */
+    @Override
+    public void locationsChanged() {
+        mAdapter = new LocationListAdapter(getActivity(), 2, "You have no favorite Locations", "You can add a location to your favorites by clicking the star icon in the upper right of a location page.");
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 }
