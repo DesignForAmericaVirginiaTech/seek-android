@@ -213,27 +213,8 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
     @Override
     public void onDialogNegativeClick(LoginDialog l) {
         l.dismiss();
-        //hang I guess...
 
-        //Workaround until anonymous users are implemented
-        List<String> permissions = Arrays.asList("public_profile", "email", "user_photos");
-        ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException err) {
-                if (user == null) {
-                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-                    Toast.makeText(getApplicationContext(), "Cancelled Login", Toast.LENGTH_SHORT).show();
-                } else if (user.isNew()) {
-                    Log.d("MyApp", "User signed up and logged in through Facebook!");
-                    Toast.makeText(getApplicationContext(), "New log in successful", Toast.LENGTH_SHORT).show();
-                    getFacebookInfo(user);
-                } else {
-                    Log.d("MyApp", "User logged in through Facebook!");
-                    Toast.makeText(getApplicationContext(), "Existing log in successful", Toast.LENGTH_SHORT).show();
-                    getFacebookInfo(user);
-                }
-            }
-        });
+        //anon-i-moose
     }
 
     /**

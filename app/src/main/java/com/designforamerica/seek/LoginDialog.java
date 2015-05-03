@@ -48,7 +48,7 @@ public class LoginDialog extends DialogFragment {
         builder.setView(v);
 
         positive = (Button) v.findViewById(R.id.login_with_facebook_button);
-        negative = (Button) v.findViewById(R.id.continue_anonymously_button);
+        //negative = (Button) v.findViewById(R.id.continue_anonymously_button);
 
         final LoginDialog dis = this;
         positive.setOnClickListener(new View.OnClickListener() {
@@ -57,12 +57,12 @@ public class LoginDialog extends DialogFragment {
                 mListener.onDialogPositiveClick(dis);
             }
         });
-        negative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onDialogNegativeClick(dis);
-            }
-        });
+//        negative.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mListener.onDialogNegativeClick(dis);
+//            }
+//        });
 
         // Create the AlertDialog object and return it
         return builder.create();

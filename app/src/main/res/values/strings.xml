@@ -17,8 +17,7 @@
     <string name="location_updated_message">Location has been updated</string>
     <string name="login_terms_and_conditions">
         See[k] logs you in with Facebook in order to manage
-        favorite and custom locations. If you continue without logging in you will not be able to
-        favorite or post locations.
+        favorite and custom locations. See[k] cannot view your private data or post to Facebook.
     </string>
 
     <string-array name="nav_drawer_items">
