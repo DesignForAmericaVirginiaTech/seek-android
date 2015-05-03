@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * This class is an adapter for a recyclerview. It displays the Locations
@@ -143,6 +144,10 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
                 empty = mDataset.isEmpty();
                 break;
         }
+
+        //reverse the data!!!!
+        //so most recently added locations are first
+        Collections.reverse(mDataset);
 
         //need to add a blank element if the query returned no results
         if (empty) {

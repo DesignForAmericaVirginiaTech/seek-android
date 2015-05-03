@@ -165,10 +165,8 @@ public class Seek extends Application implements ParseCallbacks {
     public static void addFavorite(String id) {
         for (int i = 0; i < allLocations.size(); i++) {
             if (allLocations.get(i).id().equals(id)) {
-                Log.d("FAVORITE", "add found " + id);
                 allLocations.get(i).favorite(true);
                 if (!favoriteLocations.contains(allLocations.get(i))) {
-                    Log.d("FAVORITE", "adding favorite: " + id);
                     favoriteLocations.add(allLocations.get(i));
                 }
                 ph.addFavorite(id);

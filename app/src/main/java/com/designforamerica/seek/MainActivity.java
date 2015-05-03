@@ -168,8 +168,13 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent i = new Intent(this, SettingsActivity.class);
+//        if (id == R.id.action_settings) {
+//            Intent i = new Intent(this, SettingsActivity.class);
+//            startActivity(i);
+//            return true;
+//        }
+        if (id == R.id.about) {
+            Intent i = new Intent(this, AboutActivity.class);
             startActivity(i);
             return true;
         }

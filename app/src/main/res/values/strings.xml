@@ -15,7 +15,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="facebook_app_id">661011660688998</string>
     <string name="location_updated_message">Location has been updated</string>
-    <string name="login_terms_and_conditions">See[k] logs you in with Facebook in order to manage favorite and custom locations. If you continue without logging in you will not be able to favorite or post locations.</string>
+    <string name="login_terms_and_conditions">
+        See[k] logs you in with Facebook in order to manage
+        favorite and custom locations. If you continue without logging in you will not be able to
+        favorite or post locations.
+    </string>
 
     <string-array name="nav_drawer_items">
         <item >Map</item>
@@ -31,6 +35,27 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
+    <string name="app_version">See[k] Version 1</string>
+    <string name="about">
+        The Virginia Tech studio of Design For America is proud to present See[k]\n\n
 
+        See[k] aims to help you make informed decisions about your mode of transportation, helping
+        your daily commute and the planet. See[k] began in 2012 as an application project for
+        Virginia Tech students to create an official Design For America studio. Since then,
+        the project has gone through many iterations and team members. The primary focus of the
+        See[k] team is a system of wayfinding signs in and around Blacksburg, VA that provide
+        walking, biking, driving, and possibly bus times for travelling to and from the Virginia
+        Tech campus. We aim to have some signs installed by late 2015.
+    </string>
+    <string name="updates">
+        Version 1!!!!!\n\n
+        Updates planned and coming soon:\n\n
+        Anonymous login: so you don\'t have to login with Facebook if you don\'t want to\n\n
+        Map updates: clicking a location on the home map will take you to that location\'s page in the app.\n\n
+        Sorted locations: Locations will show up in lists based off of how close they are to you\n\n
+        Frequently used: Locations can be sorted by how often you navigate to them\n\n
+        Settings: so you can control things like notifications, how your locations are sorted,
+        your profile information, and anything else you think needs to be changed.\n\n
+    </string>
 
 </resources>

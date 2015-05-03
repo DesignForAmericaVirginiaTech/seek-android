@@ -89,7 +89,8 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
                             lastName = object.getString("last_name");
                             email = object.getString("email");
                             profilePic = "https://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
-                            coverPic = "https://scontent-iad.xx.fbcdn.net/hphotos-xat1/v/t1.0-9/75952_10203243480026976_487162205_n.jpg?oh=dae1b7b99e6351465451b3e5a7e5ed92&oe=55DCDBE6";
+                            JSONObject cover = object.getJSONObject("cover");
+                            coverPic = cover.getString("source");
                             Seek.setProfileInformation(name, firstName, lastName, email, profilePic, coverPic);
                             //callback to the main thread
                             complete(true);
@@ -177,6 +178,10 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * if the user wants to login with Facebook.
+     * @param l
+     */
     @Override
     public void onDialogPositiveClick(LoginDialog l) {
         l.dismiss();
@@ -201,6 +206,10 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         });
     }
 
+    /**
+     * if the user chooses to login anonymously.
+     * @param l
+     */
     @Override
     public void onDialogNegativeClick(LoginDialog l) {
         l.dismiss();

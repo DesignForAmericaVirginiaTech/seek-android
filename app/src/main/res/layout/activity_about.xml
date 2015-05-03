@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/about_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true">
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_version"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_margin="16dp"
+                android:textSize="24dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:gravity="center_horizontal"
+                android:layout_margin="16dp"
+                android:text="@string/about"/>
+
+            <Button
+                android:id="@+id/visit_us_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="24dp"
+                android:paddingLeft="24dp"
+                android:layout_margin="16dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Visit us at seekdfa.com"
+                android:background="@drawable/button_accent"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update Log"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_margin="16dp"
+                android:textSize="24dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_margin="16dp"
+                android:text="@string/updates"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
