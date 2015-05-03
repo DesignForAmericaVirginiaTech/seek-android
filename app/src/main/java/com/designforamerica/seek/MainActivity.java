@@ -216,7 +216,7 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
                 break;
             case 3:
                 toolbar.setTitle("Locations");
-                if (getFragmentManager().findFragmentById(R.layout.locations_fragment) == null) {
+                if (getFragmentManager().findFragmentById(R.layout.locations_fragment) != null) {
                     locFrag = new LocationsFragment();
                 }
                 b = new Bundle();

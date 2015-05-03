@@ -46,4 +46,10 @@ public class LocationsFragment extends Fragment {
 
         return v;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTabHost.setCurrentTab(0);
+    }
 }

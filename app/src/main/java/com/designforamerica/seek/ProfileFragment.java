@@ -72,7 +72,7 @@ public class ProfileFragment extends Fragment implements LocationListener {
         mRecyclerView.setAdapter(mAdapter);
 
         //load the profile picture and cover photo
-        Picasso.with(v.getContext()).load(cover).placeholder(R.drawable.polygon).fit().centerCrop().transform(new BlurTransformation(getActivity(), 25)).into(header);
+        Picasso.with(v.getContext()).load(cover).fit().centerCrop().transform(new BlurTransformation(getActivity(), 25)).into(header);
         Picasso.with(v.getContext()).load(url).placeholder(R.drawable.com_facebook_profile_picture_blank_portrait).transform(new CircleTransform()).into(picture);
         nameText.setText(name);
         emailText.setText(email);
@@ -94,6 +94,13 @@ public class ProfileFragment extends Fragment implements LocationListener {
         });
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter = new LocationListAdapter(getActivity(), 1, "You have no locations", "Click the + button below to add a location to your profile");
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     /**

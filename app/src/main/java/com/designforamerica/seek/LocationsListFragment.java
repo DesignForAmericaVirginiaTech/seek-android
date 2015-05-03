@@ -42,6 +42,13 @@ public class LocationsListFragment extends Fragment implements LocationListener 
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter = new LocationListAdapter(getActivity(), 0, "Database Error", "No locations found");
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     /**
      * callback from the Application class that the data has been changed
      */
