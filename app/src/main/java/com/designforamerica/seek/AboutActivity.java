@@ -32,7 +32,7 @@ public class AboutActivity extends ActionBarActivity {
         website.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://seek.joebruzek.com/"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://seekdfa.com/"));
                 startActivity(browserIntent);
             }
         });

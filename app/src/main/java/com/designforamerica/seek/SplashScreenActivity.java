@@ -81,8 +81,6 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
                             JSONObject object,
                             GraphResponse response) {
                         try {
-                            Log.d("JSON", object.toString(4));
-
                             //String coverPhotoUrl = response.getJSONObject().getJSONObject("cover").getString("source");
                             name = object.getString("name");
                             firstName = object.getString("first_name");

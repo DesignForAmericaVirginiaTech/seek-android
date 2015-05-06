@@ -31,6 +31,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.software.shell.fab.ActionButton;
@@ -104,7 +105,11 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude(), location.longitude()), 15);
         map.moveCamera(cameraUpdate);
 
-        map.addMarker(new MarkerOptions().position(new LatLng(location.latitude(), location.longitude())).title(location.name()));
+        if (location.def()) {
+            map.addMarker(new MarkerOptions().position(new LatLng(location.latitude(), location.longitude())).title(location.name()).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_primary)));
+        } else {
+            map.addMarker(new MarkerOptions().position(new LatLng(location.latitude(), location.longitude())).title(location.name()).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_accent)));
+        }
 
         title = (TextView) findViewById(R.id.location_title);
         title.setText(location.name());

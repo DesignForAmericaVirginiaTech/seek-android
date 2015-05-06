@@ -29,7 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  *
  * Created by jbruzek on 5/1/15.
  */
-public class EditLocationActivity extends ActionBarActivity {
+public class EditLocationActivity extends ActionBarActivity implements DeleteDialog.DeleteDialogListener {
 
     private Button cancel;
     private Button save;
@@ -141,49 +141,9 @@ public class EditLocationActivity extends ActionBarActivity {
         mapView.onLowMemory();
     }
 
-    /**
-     * a dialog asking the user to confirm a location deletion
-     */
-    private class DeleteDialog extends DialogFragment {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the Builder class for convenient dialog construction
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Delete Location")
-                    .setMessage("This action cannot be undone")
-                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            Seek.deleteLocation(location);
-                            finish();
-                        }
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //nothing
-                        }
-                    });
-            // Create the AlertDialog object and return it
-            return builder.create();
-        }
-    }
-
-    /**
-     * a dialog telling the user how to drop a pin
-     */
-    private class DropPinDialog extends DialogFragment {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the Builder class for convenient dialog construction
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Select Location")
-                    .setMessage("Touch the location you want on the map to drop a pin")
-                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //nothing
-                        }
-                    });
-            // Create the AlertDialog object and return it
-            return builder.create();
-        }
+    @Override
+    public void deleted() {
+        Seek.deleteLocation(location);
+        finish();
     }
 }

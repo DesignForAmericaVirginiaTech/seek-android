@@ -20,6 +20,12 @@
         favorite and custom locations. See[k] cannot view your private data or post to Facebook.
     </string>
 
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
+        AIzaSyBlp4NQwDNprPRCrz84Ql7sLRiQywUH5GA
+    </string>
+
+    <string name="server_key">AIzaSyD5c6njDBuKaKlgtIUsGRX0wdelwBBP50Q</string>
+
     <string-array name="nav_drawer_items">
         <item >Map</item>
         <item >Profile</item>

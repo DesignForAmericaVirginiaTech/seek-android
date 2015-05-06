@@ -14,7 +14,7 @@
         <com.google.android.gms.maps.MapView
             android:id="@+id/location_map_view"
             android:layout_width="match_parent"
-            android:layout_height="278dp"/>
+            android:layout_height="375dp"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                         <ImageView
                             android:layout_width="72dp"
                             android:layout_height="72dp"
-                            android:src="@drawable/drive"
+                            android:src="@drawable/bus"
                             android:layout_margin="16dp" />
 
                         <ProgressBar
