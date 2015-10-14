@@ -2,6 +2,9 @@ package com.designforamerica.seek;
 
 import android.util.Log;
 
+import com.designforamerica.seek.interfaces.ParseCallbacks;
+import com.designforamerica.seek.models.Distance;
+import com.designforamerica.seek.models.Location;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;

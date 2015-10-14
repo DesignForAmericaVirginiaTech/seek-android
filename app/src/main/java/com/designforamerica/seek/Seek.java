@@ -1,10 +1,12 @@
 package com.designforamerica.seek;
 
 import android.app.Application;
-import android.provider.Settings;
 import android.util.Log;
 
-import com.facebook.FacebookSdk;
+import com.designforamerica.seek.interfaces.LocationListener;
+import com.designforamerica.seek.interfaces.ParseCallbacks;
+import com.designforamerica.seek.models.Distance;
+import com.designforamerica.seek.models.Location;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -13,7 +15,6 @@ import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Application class for Seek
