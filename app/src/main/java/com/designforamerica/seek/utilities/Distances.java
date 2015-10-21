@@ -1,5 +1,8 @@
 package com.designforamerica.seek.utilities;
 
+import com.designforamerica.seek.Seek;
+import com.designforamerica.seek.models.Location;
+
 /**
  * Helper class to get distances between different locations
  *
@@ -25,6 +28,18 @@ public class Distances {
         dist = dist * 10;
         long tmp = Math.round(dist);
         return (double) tmp / 10;
+    }
+
+    /**
+     * get the distance from the current device location to the location parameter
+     * A modified version of the above method
+     *
+     * @param loc com.designforamerica.models.Location
+     * @return
+     */
+    public static double distanceTo(Location loc) {
+        android.location.Location curr = Seek.getLastLocation();
+        return distance(curr.getLatitude(), curr.getLongitude(), loc.latitude(), loc.longitude());
     }
 
     /**
