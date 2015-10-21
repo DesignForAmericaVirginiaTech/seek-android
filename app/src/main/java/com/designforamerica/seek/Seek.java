@@ -41,6 +41,8 @@ public class Seek extends Application implements ParseCallbacks {
     private static ArrayList<Location> favoriteLocations;
     private static ArrayList<Location> allLocations;
 
+    private static android.location.Location lastLocation;
+
     /* A list of all the LocationListeners that depend on callbacks */
     private static ArrayList<LocationListener> listeners;
 
@@ -81,6 +83,22 @@ public class Seek extends Application implements ParseCallbacks {
                 }
             }
         });
+    }
+
+    /**
+     * Get the last location that has been reported to Seek
+     * @return
+     */
+    public static android.location.Location getLastLocation() {
+        return lastLocation;
+    }
+
+    /**
+     * Set the last location.
+     * @param lastLocation
+     */
+    public static void setLastLocation(android.location.Location lastLocation) {
+        Seek.lastLocation = lastLocation;
     }
 
     /**

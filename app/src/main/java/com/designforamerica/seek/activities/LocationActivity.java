@@ -22,6 +22,7 @@ import com.designforamerica.seek.models.Location;
 import com.designforamerica.seek.dialogs.NavChoiceDialog;
 import com.designforamerica.seek.R;
 import com.designforamerica.seek.Seek;
+import com.designforamerica.seek.utilities.Distances;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -227,7 +228,7 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
             new HttpTask().execute("https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + destination + "&mode=bicycling&key=" + getResources().getString(R.string.server_key), "bike");
             new HttpTask().execute("https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + destination + "&mode=driving&key=" + getResources().getString(R.string.server_key), "drive");
             new HttpTask().execute("https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + destination + "&transit_mode=bus&key=" + getResources().getString(R.string.server_key), "bus");
-            locationUpdated(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            locationUpdated(mLastLocation);
         }
         else {
             Toast.makeText(this, "No location detected", Toast.LENGTH_LONG).show();
@@ -263,43 +264,15 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
         mapView.onLowMemory();
     }
 
-    public void locationUpdated(double latitude, double longitude) {
-        double d = distance(location.latitude(), location.longitude(), latitude, longitude);
+    /**
+     * Update the location, this updates the current location in Seek as well as updating the distance displayed on the screen
+     * @param lloc
+     */
+    public void locationUpdated(android.location.Location lloc) {
+        Seek.setLastLocation(lloc);
+        double d = Distances.distance(location.latitude(), location.longitude(), lloc.getLatitude(), lloc.getLongitude());
 
         distance.setText(d + " miles away");
-    }
-
-    /**
-     * Get the distance between two latlng points.
-     * Taken from here:
-     * http://www.geodatasource.com/developers/java
-     *
-     * Slightly edited so it rounds to one decimal place
-     */
-    private double distance(double lat1, double lon1, double lat2, double lon2) {
-        double theta = lon1 - lon2;
-        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
-        dist = Math.acos(dist);
-        dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515;
-
-        dist = dist * 10;
-        long tmp = Math.round(dist);
-        return (double) tmp / 10;
-    }
-
-    /**
-     * used by distance()
-     */
-    private double deg2rad(double deg) {
-        return (deg * Math.PI / 180.0);
-    }
-
-    /**
-     * used by distance()
-     */
-    private double rad2deg(double rad) {
-        return (rad * 180 / Math.PI);
     }
 
     @Override

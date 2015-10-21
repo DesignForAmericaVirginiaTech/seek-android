@@ -142,6 +142,7 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
+            Seek.setLastLocation(mLastLocation);
 
             Log.i("Location", "" + mLastLocation.getLatitude());
             Log.i("Location", "" + mLastLocation.getLongitude());

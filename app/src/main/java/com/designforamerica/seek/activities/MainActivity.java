@@ -351,6 +351,7 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         // is displayed as the activity is re-created.
         if (mCurrentLocation == null) {
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            Seek.setLastLocation(mCurrentLocation);
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
             //updateUI();
         }
@@ -364,6 +365,7 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
     @Override
     public void onLocationChanged(android.location.Location location) {
         mCurrentLocation = location;
+        Seek.setLastLocation(location);
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         //updateUI();
     }
