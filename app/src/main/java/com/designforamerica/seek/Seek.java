@@ -7,6 +7,7 @@ import com.designforamerica.seek.interfaces.LocationListener;
 import com.designforamerica.seek.interfaces.ParseCallbacks;
 import com.designforamerica.seek.models.Distance;
 import com.designforamerica.seek.models.Location;
+import com.designforamerica.seek.utilities.Distances;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -15,6 +16,8 @@ import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Application class for Seek
@@ -158,6 +161,7 @@ public class Seek extends Application implements ParseCallbacks {
         allLocations = new ArrayList<Location>(locations.size() + myLocations.size());
         allLocations.addAll(locations);
         allLocations.addAll(myLocations);
+        Distances.sortByDistance(allLocations);
         processFavorites();
     }
 
@@ -247,12 +251,16 @@ public class Seek extends Application implements ParseCallbacks {
         allLocations.add(l);
         myLocations.add(l);
 
+        Distances.sortByDistance(allLocations);
+        Distances.sortByDistance(myLocations);
+
         ph.addLocation(l);
         alertListeners();
     }
 
     public static void setLocations(ArrayList<Location> loc) {
         locations = loc;
+        Distances.sortByDistance(locations);
     }
 
     public static ArrayList<Location> getLocations() {
@@ -289,6 +297,7 @@ public class Seek extends Application implements ParseCallbacks {
 
     public static void setMyLocations(ArrayList<Location> mloc, boolean mlempty) {
         myLocations = mloc;
+        Distances.sortByDistance(myLocations);
         myLocations_empty = mlempty;
     }
 

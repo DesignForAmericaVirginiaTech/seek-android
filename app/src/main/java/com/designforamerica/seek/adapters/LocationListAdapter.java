@@ -13,6 +13,7 @@ import com.designforamerica.seek.R;
 import com.designforamerica.seek.Seek;
 import com.designforamerica.seek.activities.LocationActivity;
 import com.designforamerica.seek.models.Location;
+import com.designforamerica.seek.utilities.Distances;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +35,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
         TextView subtitle;
+        TextView distance;
         ImageView image;
         Location l;
 
@@ -44,6 +46,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
                 itemView.setClickable(true);
                 itemView.setOnClickListener(this);
                 title = (TextView) itemView.findViewById(R.id.location_item_title);
+                distance = (TextView) itemView.findViewById(R.id.location_item_distance);
                 image = (ImageView) itemView.findViewById(R.id.location_item_image);
             } else {
                 title = (TextView) itemView.findViewById(R.id.no_locations_title);
@@ -105,6 +108,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         if (!empty) {
             holder.l = mDataset.get(position);
             holder.title.setText(mDataset.get(position).name());
+            holder.distance.setText(Distances.distanceTo(mDataset.get(position)) + " mi");
             if (holder.l.def()) {
                 holder.image.setImageResource(R.drawable.ic_logo_primary);
             } else {

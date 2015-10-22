@@ -53,11 +53,13 @@
         Tech campus. We aim to have some signs installed by late 2015.
     </string>
     <string name="updates">
-        Version 1!!!!!\n\n
-        Updates planned and coming soon:\n\n
-        Anonymous login: so you don\'t have to login with Facebook if you don\'t want to\n\n
+        Version 1.02\n\n
+        Recent Updates:\n\n
         Map updates: clicking a location on the home map will take you to that location\'s page in the app.\n\n
         Sorted locations: Locations will show up in lists based off of how close they are to you\n\n
+
+        Updates planned and coming soon:\n\n
+        Anonymous login: so you don\'t have to login with Facebook if you don\'t want to\n\n
         Frequently used: Locations can be sorted by how often you navigate to them\n\n
         Settings: so you can control things like notifications, how your locations are sorted,
         your profile information, and anything else you think needs to be changed.\n\n

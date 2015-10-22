@@ -3,6 +3,10 @@ package com.designforamerica.seek.utilities;
 import com.designforamerica.seek.Seek;
 import com.designforamerica.seek.models.Location;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 /**
  * Helper class to get distances between different locations
  *
@@ -40,6 +44,33 @@ public class Distances {
     public static double distanceTo(Location loc) {
         android.location.Location curr = Seek.getLastLocation();
         return distance(curr.getLatitude(), curr.getLongitude(), loc.latitude(), loc.longitude());
+    }
+
+    /**
+     * Sort a list by distance.
+     * @param list
+     * @param direction if true, sort ascending. If false, descending
+     */
+    public static void sortByDistance(ArrayList<Location> list, final boolean direction) {
+        Collections.sort(list, new Comparator<Location>() {
+            @Override
+            public int compare(Location lhs, Location rhs) {
+                if (distanceTo(lhs) < distanceTo(rhs)) {
+                    return direction ? 1 : -1;
+                } else if (distanceTo(lhs) > distanceTo(rhs)) {
+                    return direction ? -1 : 1;
+                }
+                return 0;
+            }
+        });
+    }
+
+    /**
+     * Sort ascending by distance
+     * @param location
+     */
+    public static void sortByDistance(ArrayList<Location> location) {
+        sortByDistance(location, true);
     }
 
     /**
