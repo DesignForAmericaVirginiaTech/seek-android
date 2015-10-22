@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.designforamerica.seek"
+    package="com.seekdfa.seek"
     android:versionCode="4"
     android:versionName="1.02" >
 
@@ -20,16 +20,16 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission
-        android:name="com.designforamerica.seek.permission.MAPS_RECEIVE"
+        android:name="com.seekdfa.seek.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.example.yourpackage.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.seekdfa.seek.permission.MAPS_RECEIVE" />
 
     <permission
-        android:name="com.designforamerica.seek.permission.C2D_MESSAGE"
+        android:name="com.seekdfa.seek.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.designforamerica.seek.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.seekdfa.seek.permission.C2D_MESSAGE" />
 
     <!-- This is for OpenGL with Google Maps -->
     <uses-feature
@@ -39,13 +39,13 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <application
-        android:name=".Seek"
+        android:name="com.seekdfa.seek.Seek"
         android:allowBackup="true"
         android:icon="@drawable/ic_logo_primary"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".activities.SplashScreenActivity"
+            android:name="com.seekdfa.seek.activities.SplashScreenActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -63,38 +63,38 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.seekdfa.seek.activities.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".activities.LocationActivity"
+            android:name="com.seekdfa.seek.activities.LocationActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.seekdfa.seek.activities.SettingsActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".activities.AboutActivity"
+            android:name="com.seekdfa.seek.activities.AboutActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".activities.AddLocationActivity"
+            android:name="com.seekdfa.seek.activities.AddLocationActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".activities.EditLocationActivity"
+            android:name="com.seekdfa.seek.activities.EditLocationActivity"
             android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
