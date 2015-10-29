@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.seekdfa.seek"
-    android:versionCode="4"
-    android:versionName="1.02" >
+    android:versionCode="7"
+    android:versionName="1.03" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -67,6 +67,8 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name="com.seekdfa.seek.activities.LocationActivity"
@@ -100,6 +102,11 @@
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
+        <activity android:name="com.seekdfa.seek.activities.SearchResultsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -127,7 +134,7 @@
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
                 <!-- IMPORTANT: Change "com.parse.tutorials.pushnotifications" to match your app's package name. -->
-                <category android:name="com.designforamerica.seek" />
+                <category android:name="com.seekdfa.seek" />
             </intent-filter>
         </receiver>
         <receiver
@@ -141,8 +148,8 @@
         </receiver>
 
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBKFOej76bpB5W0T6L4-OaaNkIsUjEQzBc" />
         <!-- @string/google_maps_key is found under debug/res/values -->
     </application>
 

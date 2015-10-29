@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.seekdfa.seek.utilities.Profile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,7 +83,7 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
                             profilePic = "https://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
                             JSONObject cover = object.getJSONObject("cover");
                             coverPic = cover.getString("source");
-                            Seek.setProfileInformation(name, firstName, lastName, email, profilePic, coverPic);
+                            Profile.setProfileInformation(name, firstName, lastName, email, profilePic, coverPic, false);
                             //callback to the main thread
                             complete(true);
                             ph.queryLocations();
@@ -97,6 +99,18 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
         parameters.putString("fields", "id,name,picture,first_name,last_name,cover,email");
         request.setParameters(parameters);
         request.executeAsync();
+    }
+
+    /**
+     * Handle compiling all of the information needed for an anonymous login
+     */
+    private void getAnonymousInfo() {
+        Profile.setProfileInformation(getResources().getString(R.string.anon_profile_name), "", "", "", getResources().getString(R.string.anon_profile_url), getResources().getString(R.string.anon_profile_cover_url), true);
+        ph.queryLocations();
+        ph.queryMyLocations(Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
+        ph.queryFavoriteLocations(Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
+        ph.queryDistances();
+        complete(true);
     }
 
     private void launchMainActivity(final String name, final String fName, final String lName, final String email, final String pic, final String cover) {
@@ -204,7 +218,7 @@ public class SplashScreenActivity extends Activity implements GoogleApiClient.Co
     @Override
     public void onDialogNegativeClick(LoginDialog l) {
         l.dismiss();
-
+        getAnonymousInfo();
         //anon-i-moose
     }
 

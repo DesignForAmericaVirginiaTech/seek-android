@@ -1,5 +1,8 @@
 package com.seekdfa.seek.activities;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 
 import com.seekdfa.seek.fragments.LocationsFragment;
 import com.seekdfa.seek.fragments.MapFragment;
@@ -25,6 +29,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.seekdfa.seek.utilities.Profile;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -95,10 +100,10 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        name = Seek.getName();
-        email = Seek.getEmail();
-        url = Seek.getProfilePic();
-        cover = Seek.getCoverPic();
+        name = Profile.getName();
+        email = Profile.getEmail();
+        url = Profile.getProfilePic();
+        cover = Profile.getCoverPic();
 
         /**
          * Set up location updates
@@ -168,6 +173,15 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+//        SearchManager searchManager =
+//                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        SearchView searchView =
+//                (SearchView) menu.findItem(R.id.search).getActionView();
+//        searchView.setIconifiedByDefault(false);
+//        ComponentName cn = new ComponentName(this, SearchResultsActivity.class);
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
+
         return true;
     }
 
@@ -184,6 +198,12 @@ public class MainActivity extends ActionBarActivity implements NavDrawerCallback
             startActivity(i);
             return true;
         }
+//        if (id == R.id.search) {
+//            SearchView searchView = (SearchView) item.getActionView();
+//            searchView.requestFocus();
+//            searchView.setIconified(false);
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -10,8 +10,8 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.seekdfa.seek.utilities.Profile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +115,7 @@ public class ParseHelper {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
-                    for(ParseObject p : list) {
+                    for (ParseObject p : list) {
                         Distance d = new Distance(p.getString("startId"), p.getString("endId"), p.getDouble("time"), p.getInt("type"));
                         distances.add(d);
                     }
@@ -133,9 +133,8 @@ public class ParseHelper {
      * @param id
      */
     public void addFavorite(String id) {
-        ParseUser user = ParseUser.getCurrentUser();
         ParseObject favorite = new ParseObject("favorites");
-        favorite.put("uid", user.getObjectId());
+        favorite.put("uid", Profile.getUserId());
         favorite.put("lid", id);
         favorite.saveInBackground();
     }
@@ -190,7 +189,7 @@ public class ParseHelper {
         obj.put("latitude", l.latitude());
         obj.put("longitude", l.longitude());
         obj.put("default", false);
-        obj.put("uid", ParseUser.getCurrentUser().getObjectId());
+        obj.put("uid", Profile.getUserId());
         obj.saveInBackground(new SaveCallback() {
             /**
              * after the object has been saved in the background, we update the location

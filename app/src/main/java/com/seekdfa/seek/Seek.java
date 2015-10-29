@@ -1,6 +1,7 @@
 package com.seekdfa.seek;
 
 import android.app.Application;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.seekdfa.seek.interfaces.LocationListener;
@@ -14,6 +15,7 @@ import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
+import com.seekdfa.seek.utilities.Profile;
 
 import java.util.ArrayList;
 
@@ -48,13 +50,7 @@ public class Seek extends Application implements ParseCallbacks {
     private static ArrayList<LocationListener> listeners;
 
     //User information, grabbable from anywhere in the app publicly
-    //These values are set once in the splash screen.
-    private static String name;
-    private static String email;
-    private static String firstName;
-    private static String lastName;
-    private static String profilePic;
-    private static String coverPic;
+    //These values are set once in the splash screen
 
     private static ParseHelper ph;
 
@@ -65,6 +61,8 @@ public class Seek extends Application implements ParseCallbacks {
 
         listeners = new ArrayList<LocationListener>();
         ph = new ParseHelper(this);
+
+        Profile.setContext(getApplicationContext());
 
         //Do Parse stuff
         //OLD ONE
@@ -139,17 +137,12 @@ public class Seek extends Application implements ParseCallbacks {
      */
     public static boolean complete() {
         return (locations != null && distances != null && favorites != null && myLocations != null
-                    && name != null && email != null && profilePic != null && coverPic != null);
+                    && Profile.isLoaded());
     }
 
-    public static void setProfileInformation(String n, String fn, String ln, String e, String pp, String cp) {
-        name = n;
-        firstName = fn;
-        lastName = ln;
-        email = e;
-        profilePic = pp;
-        coverPic = cp;
-    }
+//    public static String getAnonymousId() {
+//        //return Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+//    }
 
     /**
      * Go through default locations and myLocations to make one locations list
@@ -297,30 +290,6 @@ public class Seek extends Application implements ParseCallbacks {
         myLocations = mloc;
         Distances.sortByDistance(myLocations);
         myLocations_empty = mlempty;
-    }
-
-    public static String getName() {
-        return name;
-    }
-
-    public static String getEmail() {
-        return email;
-    }
-
-    public static String getFirstName() {
-        return firstName;
-    }
-
-    public static String getLastName() {
-        return lastName;
-    }
-
-    public static String getProfilePic() {
-        return profilePic;
-    }
-
-    public static String getCoverPic() {
-        return coverPic;
     }
 
     public static ArrayList<Location> getFavoriteLocations() {

@@ -19,6 +19,7 @@ import com.seekdfa.seek.interfaces.LocationListener;
 import com.seekdfa.seek.R;
 import com.seekdfa.seek.Seek;
 import com.seekdfa.seek.activities.AddLocationActivity;
+import com.seekdfa.seek.utilities.Profile;
 import com.software.shell.fab.ActionButton;
 import com.squareup.picasso.Picasso;
 
@@ -59,10 +60,10 @@ public class ProfileFragment extends Fragment implements LocationListener {
         longitude = b.getDouble("lon");
 
         //get the profile information from the application
-        url = Seek.getProfilePic();
-        name = Seek.getName();
-        email = Seek.getEmail();
-        cover = Seek.getCoverPic();
+        url = Profile.getProfilePic();
+        name = Profile.getName();
+        email = Profile.getEmail();
+        cover = Profile.getCoverPic();
         picture = (ImageView) v.findViewById(R.id.profile_picture);
         nameText = (TextView) v.findViewById(R.id.profile_name);
         emailText = (TextView) v.findViewById(R.id.profile_email);

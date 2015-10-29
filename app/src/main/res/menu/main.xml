@@ -2,11 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity" >
+
     <!--<item android:id="@+id/search"-->
         <!--android:title="Search"-->
         <!--android:icon="@drawable/ic_search"-->
         <!--app:showAsAction="collapseActionView|always"-->
-        <!--android:actionViewClass="android.widget.SearchView" />-->
+        <!--app:actionViewClass="android.widget.SearchView" />-->
+
     <item android:id="@+id/about"
         android:title="About"
         android:orderInCategory="100"

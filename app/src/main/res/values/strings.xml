@@ -13,6 +13,10 @@
     <string name="map">Map</string>
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="search_hint">Search Locations</string>
+    <string name="anon_profile_name">Anonymous</string>
+    <string name="anon_profile_url">http://seekdfa.com/images/app/profile.png</string>
+    <string name="anon_profile_cover_url">http://seekdfa.com/images/app/cover.jpg</string>
     <string name="facebook_app_id">661011660688998</string>
     <string name="location_updated_message">Location has been updated</string>
     <string name="login_terms_and_conditions">
@@ -21,7 +25,7 @@
     </string>
 
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
-        AIzaSyBlp4NQwDNprPRCrz84Ql7sLRiQywUH5GA
+        AIzaSyBKFOej76bpB5W0T6L4-OaaNkIsUjEQzBc
     </string>
 
     <string name="server_key">AIzaSyD5c6njDBuKaKlgtIUsGRX0wdelwBBP50Q</string>
@@ -40,7 +44,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
-    <string name="app_version">See[k] Version 1</string>
+    <string name="app_version">See[k] Version 1.02</string>
     <string name="about">
         The Virginia Tech studio of Design For America is proud to present See[k]\n\n
 
@@ -53,10 +57,10 @@
         Tech campus. We aim to have some signs installed by late 2015.
     </string>
     <string name="updates">
-        Version 1.02\n\n
+        Version 1.03\n\n\n
         Recent Updates:\n\n
-        Map updates: clicking a location on the home map will take you to that location\'s page in the app.\n\n
-        Sorted locations: Locations will show up in lists based off of how close they are to you\n\n
+        Anonymous Login!!!! You can now continue anonymously when opening the app. Anonymous login still allows creating locations and favorites.\n\n
+        Sorted locations: Locations will show up in lists based off of how close they are to you\n\n\n
 
         Updates planned and coming soon:\n\n
         Anonymous login: so you don\'t have to login with Facebook if you don\'t want to\n\n
