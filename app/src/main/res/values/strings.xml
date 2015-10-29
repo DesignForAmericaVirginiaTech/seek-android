@@ -16,7 +16,7 @@
     <string name="search_hint">Search Locations</string>
     <string name="anon_profile_name">Anonymous</string>
     <string name="anon_profile_url">http://seekdfa.com/images/app/profile.png</string>
-    <string name="anon_profile_cover_url">http://seekdfa.com/images/app/cover.jpg</string>
+    <string name="anon_profile_cover_url">http://seekdfa.com/images/app/cover.png</string>
     <string name="facebook_app_id">661011660688998</string>
     <string name="location_updated_message">Location has been updated</string>
     <string name="login_terms_and_conditions">
