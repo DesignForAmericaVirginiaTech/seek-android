@@ -8,6 +8,7 @@ import com.seekdfa.seek.interfaces.LocationListener;
 import com.seekdfa.seek.interfaces.ParseCallbacks;
 import com.seekdfa.seek.models.Distance;
 import com.seekdfa.seek.models.Location;
+import com.seekdfa.seek.utilities.Apis;
 import com.seekdfa.seek.utilities.Distances;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.Parse;
@@ -62,7 +63,9 @@ public class Seek extends Application implements ParseCallbacks {
         listeners = new ArrayList<LocationListener>();
         ph = new ParseHelper(this);
 
+        //give context to utilities
         Profile.setContext(getApplicationContext());
+        Apis.setContext(getApplicationContext());
 
         //Do Parse stuff
         //OLD ONE

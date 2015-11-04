@@ -29,6 +29,12 @@
     </string>
 
     <string name="server_key">AIzaSyD5c6njDBuKaKlgtIUsGRX0wdelwBBP50Q</string>
+    <string name="place_request_url">https://maps.googleapis.com/maps/api/place/textsearch/json?query=</string>
+    <string name="direction_request_url">https://maps.googleapis.com/maps/api/directions/json?origin=</string>
+    <string name="api_destination_equals">&amp;destination=</string>
+    <string name="api_mode_equals">&amp;mode=</string>
+    <string name="api_transit_mode_equals">&amp;transit_mode=</string>
+    <string name="api_key_equals">&amp;key=</string>
 
     <string-array name="nav_drawer_items">
         <item >Map</item>

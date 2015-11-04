@@ -22,6 +22,7 @@ import com.seekdfa.seek.models.Location;
 import com.seekdfa.seek.dialogs.NavChoiceDialog;
 import com.seekdfa.seek.R;
 import com.seekdfa.seek.Seek;
+import com.seekdfa.seek.utilities.Apis;
 import com.seekdfa.seek.utilities.Distances;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -224,10 +225,10 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
             //SEND ALL THE HTTP REQUESTS!!!!!!!
             String origin = mLastLocation.getLatitude() + "," + mLastLocation.getLongitude();
             String destination = location.latitude() + "," + location.longitude();
-            new HttpTimeTask().execute("https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + destination + "&mode=walking&key=" + getResources().getString(R.string.server_key), "walk");
-            new HttpTimeTask().execute("https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + destination + "&mode=bicycling&key=" + getResources().getString(R.string.server_key), "bike");
-            new HttpTimeTask().execute("https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + destination + "&mode=driving&key=" + getResources().getString(R.string.server_key), "drive");
-            new HttpTimeTask().execute("https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + destination + "&transit_mode=bus&key=" + getResources().getString(R.string.server_key), "bus");
+            new HttpTimeTask().execute(Apis.buildDirectionsRequest(origin, destination, "walk"), "walk");
+            new HttpTimeTask().execute(Apis.buildDirectionsRequest(origin, destination, "bike"), "bike");
+            new HttpTimeTask().execute(Apis.buildDirectionsRequest(origin, destination, "driving"), "drive");
+            new HttpTimeTask().execute(Apis.buildDirectionsRequest(origin, destination, "bus"), "bus");
             locationUpdated(mLastLocation);
         }
         else {
