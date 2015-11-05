@@ -225,8 +225,8 @@ public class LocationActivity extends ActionBarActivity implements GoogleApiClie
             //SEND ALL THE HTTP REQUESTS!!!!!!!
             String origin = mLastLocation.getLatitude() + "," + mLastLocation.getLongitude();
             String destination = location.latitude() + "," + location.longitude();
-            new HttpTimeTask().execute(Apis.buildDirectionsRequest(origin, destination, "walk"), "walk");
-            new HttpTimeTask().execute(Apis.buildDirectionsRequest(origin, destination, "bike"), "bike");
+            new HttpTimeTask().execute(Apis.buildDirectionsRequest(origin, destination, "walking"), "walk");
+            new HttpTimeTask().execute(Apis.buildDirectionsRequest(origin, destination, "bicycling"), "bike");
             new HttpTimeTask().execute(Apis.buildDirectionsRequest(origin, destination, "driving"), "drive");
             new HttpTimeTask().execute(Apis.buildDirectionsRequest(origin, destination, "bus"), "bus");
             locationUpdated(mLastLocation);
